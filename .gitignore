@@ -1,5 +1,11 @@
-﻿bin/
+# .NET build outputs
+bin/
 obj/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Rider / JetBrains
+.idea/
