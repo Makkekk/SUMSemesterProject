@@ -1,11 +1,29 @@
 # .NET build outputs
 bin/
 obj/
+publish/
+*.nupkg
+*.snupkg
 
 # Visual Studio
 .vs/
 *.user
 *.suo
+*.userosscache
+*.sln.docstates
 
 # Rider / JetBrains
 .idea/
+
+# Test results & coverage
+TestResults/
+*.coverage
+coverage.xml
+*.trx
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
