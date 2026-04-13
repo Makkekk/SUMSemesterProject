@@ -1,16 +1,17 @@
-﻿using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
+using Models;
 
-namespace DataAcees.Context;
+namespace DataAcces.Context;
 
+public class LajmiContext
+{
+    private readonly IMongoDatabase _database;
 
-public class LajmiContext : DbContext {
-    bool created = Database.EnsureCreated();
-        if (created) {
-        Debug.WriteLine("Database created");
+    public LajmiContext(IMongoClient client, string databaseName)
+    {
+        _database = client.GetDatabase(databaseName);
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-    }
-
+    public IMongoCollection<Company> Companies =>
+        _database.GetCollection<Company>("companies");
 }
