@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LajmiWebApp", "LajmiWebApp\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusninessLogic", "BusninessLogic\BusninessLogic.csproj", "{EB69A119-F251-450D-B722-ADF5356806FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAcees", "DataAcees\DataAcees.csproj", "{79CDD34B-4443-44E1-81D9-D9C7CE9D2384}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAcces", "DataAccess\DataAcces.csproj", "{79CDD34B-4443-44E1-81D9-D9C7CE9D2384}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO", "DTO\DTO.csproj", "{DAA753F5-3E07-4C38-A05B-97C09A4E6230}"
 EndProject

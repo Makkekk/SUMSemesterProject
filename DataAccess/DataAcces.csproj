@@ -15,4 +15,10 @@
       <ProjectReference Include="..\Models\Models.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Mappers\" />
+      <Folder Include="Migrations\" />
+      <Folder Include="Repositories\" />
+    </ItemGroup>
+
 </Project>
