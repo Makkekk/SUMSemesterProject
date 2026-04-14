@@ -1,0 +1,61 @@
+name: .NET CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore SUMSemesterProject.sln
+
+      - name: Build
+        run: dotnet build SUMSemesterProject.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test SUMSemesterProject.sln --configuration Release --no-build --verbosity normal
+
+  publish:
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Publish API
+        run: dotnet publish LajmiAPI/LajmiAPI.csproj -c Release -o out/api
+
+      - name: Publish WebApp
+        run: dotnet publish LajmiWebApp/LajmiWebApp.csproj -c Release -o out/webapp
+
+      - name: Upload API artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lajmi-api
+          path: out/api
+
+      - name: Upload WebApp artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lajmi-webapp
+          path: out/webapp
