@@ -480,3 +480,60 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# =========================
+# .NET / C#
+# =========================
+[Bb]in/
+[Oo]bj/
+[Tt]est[Rr]esults/
+*.user
+*.userprefs
+*.userosscache
+*.suo
+*.sln.docstates
+
+# =========================
+# Visual Studio
+# =========================
+.vs/
+TestResults/
+*.cache
+*.force
+*.pdb
+*.pidb
+
+# =========================
+# Rider / JetBrains
+# =========================
+.idea/
+*.sln.iml
+
+# =========================
+# Operativsystemer
+# =========================
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
