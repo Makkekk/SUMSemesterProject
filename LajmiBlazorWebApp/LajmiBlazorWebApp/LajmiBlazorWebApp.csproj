@@ -8,8 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Models\Models.csproj" />
         <ProjectReference Include="..\LajmiBlazorWebApp.Client\LajmiBlazorWebApp.Client.csproj"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.5"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\CSS\" />
+      <Folder Include="wwwroot\Images\Products\" />
     </ItemGroup>
 
 </Project>

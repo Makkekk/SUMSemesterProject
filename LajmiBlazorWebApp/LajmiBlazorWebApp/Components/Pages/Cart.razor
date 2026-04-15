@@ -1,0 +1,46 @@
+@page "/cart"
+@using LajmiBlazorWebApp.Services
+@using Models
+@inject BasketService basketService
+
+<h1>Din Indkøbskurv</h1>
+
+@if (basketService.Items.Count == 0)
+{
+    <p>Din kurv er tom. Gå til produkter for at handle.</p>
+}
+else
+{
+    <div class="cart-container">
+        <table class="cart-table">
+            <thead>
+            <tr>
+                <th>Produkt</th>
+                <th>Pris</th>
+                <th>Antal</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in basketService.Items)
+            {
+                <tr>
+                    <td>
+                        <div class="cart-item-info">
+                            <img src="@item.ImageUrl" alt="@item.Name" class="cart-image" />
+                            <span>@item.Name</span>
+                        </div>
+                    </td>
+                    <td>@item.Price.ToString("N2") kr.</td>
+                    <td>@( (item.Price ).ToString("N2") ) kr.</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+        <div class="cart-summary">
+            <h3>Samlet beløb: @basketService.GetToalPrice().ToString("N2") kr.</h3>
+            <button class="btn-checkout">Gå til betaling</button>
+        </div>
+    </div>
+}
