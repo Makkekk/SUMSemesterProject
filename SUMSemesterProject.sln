@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LajmiWebApp", "LajmiWebApp\LajmiWebApp.csproj", "{F2A00D44-BE6A-4F57-AB00-BB53843B731A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusninessLogic", "BusninessLogic\BusninessLogic.csproj", "{EB69A119-F251-450D-B722-ADF5356806FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAcces", "DataAccess\DataAcces.csproj", "{79CDD34B-4443-44E1-81D9-D9C7CE9D2384}"
@@ -12,16 +10,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LajmiAPI", "LajmiAPI\LajmiAPI.csproj", "{3E0007B1-A255-40B2-BD87-D6BA3E886A16}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LajmiBlazorWebApp", "LajmiBlazorWebApp\LajmiBlazorWebApp\LajmiBlazorWebApp.csproj", "{EC9CBF9A-7D24-4E11-A71D-1A63C8E05439}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LajmiBlazorWebApp.Client", "LajmiBlazorWebApp\LajmiBlazorWebApp.Client\LajmiBlazorWebApp.Client.csproj", "{22199E8D-870C-4D29-BB55-7961DCB05A87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F2A00D44-BE6A-4F57-AB00-BB53843B731A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F2A00D44-BE6A-4F57-AB00-BB53843B731A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F2A00D44-BE6A-4F57-AB00-BB53843B731A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F2A00D44-BE6A-4F57-AB00-BB53843B731A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EB69A119-F251-450D-B722-ADF5356806FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EB69A119-F251-450D-B722-ADF5356806FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB69A119-F251-450D-B722-ADF5356806FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -42,5 +40,13 @@ Global
 		{3E0007B1-A255-40B2-BD87-D6BA3E886A16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E0007B1-A255-40B2-BD87-D6BA3E886A16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E0007B1-A255-40B2-BD87-D6BA3E886A16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC9CBF9A-7D24-4E11-A71D-1A63C8E05439}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC9CBF9A-7D24-4E11-A71D-1A63C8E05439}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC9CBF9A-7D24-4E11-A71D-1A63C8E05439}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC9CBF9A-7D24-4E11-A71D-1A63C8E05439}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22199E8D-870C-4D29-BB55-7961DCB05A87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22199E8D-870C-4D29-BB55-7961DCB05A87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22199E8D-870C-4D29-BB55-7961DCB05A87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22199E8D-870C-4D29-BB55-7961DCB05A87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
