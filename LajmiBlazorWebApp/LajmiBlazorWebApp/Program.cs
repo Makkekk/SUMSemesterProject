@@ -1,4 +1,5 @@
 using LajmiBlazorWebApp.Components;
+using LajmiBlazorWebApp.Services;
 
 namespace LajmiBlazorWebApp;
 
@@ -12,9 +13,12 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents()
             .AddInteractiveWebAssemblyComponents();
-
+        
+        // delt service pr. bruger (1 kurv pr bruger)
+        builder.Services.AddScoped<BasketService>();
         var app = builder.Build();
-
+        
+       
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
