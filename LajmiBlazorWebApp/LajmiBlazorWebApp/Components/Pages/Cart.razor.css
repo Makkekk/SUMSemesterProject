@@ -1,0 +1,52 @@
+.cart-container {
+    margin-top: 20px;
+    font-family: sans-serif;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse; /* Fjerner dobbeltkanter mellem celler */
+    margin-bottom: 30px;
+}
+
+.cart-table th, .cart-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eaddd3; /* Svag linje der matcher dit kaffe-tema */
+}
+
+/* Flexbox til at stille billede og tekst pænt ved siden af hinanden i cellen */
+.cart-item-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.cart-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.cart-summary {
+    text-align: right;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.btn-checkout {
+    background-color: #222;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.btn-checkout:hover {
+    background-color: #555;
+}
