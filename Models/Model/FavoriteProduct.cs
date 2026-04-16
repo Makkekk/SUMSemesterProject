@@ -4,5 +4,5 @@ public class FavoriteProduct
 {
     public Guid FavoriteProductId { get; set; }
     public Product Product { get; set; }
-    public Customer Customer { get; set; }
+    public User User { get; set; }
 }
