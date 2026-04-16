@@ -1,0 +1,38 @@
+﻿@page "/login"
+<div class="container text-center">
+    <div class="row">
+        <div class="col-6">
+            <h3>B2B Login</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label>Brugernavn:</label>
+        </div>
+        <div class="col-6">
+            <input type="text" @bind="username" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label>Kodeord:</label>
+        </div>
+        <div class="col-6">
+            <input type="password" @bind="password" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <input type="submit" value="Login" @onclick="Submit" />
+        </div>
+    </div>
+</div>
+
+@code {
+    string username;
+    string password;
+    private void Submit()
+    {
+        
+    }
+}
