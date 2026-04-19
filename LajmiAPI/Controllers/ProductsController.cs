@@ -23,7 +23,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductDto>> GetProduct(int id)
+    public async Task<ActionResult<ProductDto>> GetProduct(Guid id)
     {
         var product = await _productRepository.GetByIdAsync(id);
         if (product == null) return NotFound();

@@ -12,7 +12,7 @@ public static class ProductMapper
 
         return new ProductDto
         {
-            Id = product.Id,
+            ProductId = product.ProductId,
             Name = product.ProductName,
             Description = product.ProductDescription,
             Price = product.Price,

@@ -5,7 +5,7 @@ namespace Models;
 public class Product
 {
     [Key]
-    public int Id { get; set; } // <-- ikke i klassediagrammet
+    public Guid ProductId { get; set; } // <-- ikke i klassediagrammet
     public string ProductName { get; set; }
     public string ProductDescription { get; set; }
 

@@ -28,7 +28,7 @@ public class ProductService
         }
     }
 
-    public async Task<ProductDto?> GetProductByIdAsync(int id)
+    public async Task<ProductDto?> GetProductByIdAsync(Guid id)
     {
         try
         {

@@ -9,7 +9,7 @@ namespace DataAcces.Repositories;
 public interface IProductRepository
 {
     Task<IEnumerable<ProductDto>> GetAllAsync();
-    Task<ProductDto> GetByIdAsync(int id);
+    Task<ProductDto> GetByIdAsync(Guid id);
 }
 
 public class ProductRepository : IProductRepository
@@ -27,7 +27,7 @@ public class ProductRepository : IProductRepository
         return products.Select(p => p.ToDto());
     }
 
-    public async Task<ProductDto> GetByIdAsync(int id)
+    public async Task<ProductDto> GetByIdAsync(Guid id)
     {
         var product = await _context.Product.FindAsync(id);
         return product.ToDto();
