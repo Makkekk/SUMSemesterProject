@@ -57,11 +57,21 @@ dotnet restore
 Pakker der bruges i projektet:
 - `Npgsql.EntityFrameworkCore.PostgreSQL` — forbindelse til PostgreSQL/Supabase
 - `Microsoft.EntityFrameworkCore` — ORM til databaseadgang
-- `Microsoft.AspNetCore.OpenApi` — API-dokumentation
+- `Microsoft.AspNetCore.OpenApi` — .NET 10 standard API-dokumentation
+- `Scalar.AspNetCore` — Moderne interaktivt API-testværktøj (Scalar)
 
 ---
 
-## 5. Åbn i Rider
+## 5. API Dokumentation & Test
+
+Når API'et kører, kan du teste endpoints via Scalar (moderne alternativ til Swagger):
+
+- **Scalar UI:** `http://localhost:5055/scalar/v1`
+- **OpenAPI Spec (JSON):** `http://localhost:5055/openapi/v1.json`
+
+---
+
+## 6. Åbn i Rider
 
 1. Åbn Rider
 2. Vælg **Open**

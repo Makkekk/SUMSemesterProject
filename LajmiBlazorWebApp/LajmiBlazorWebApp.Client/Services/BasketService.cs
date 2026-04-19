@@ -1,10 +1,10 @@
+using System.Collections.Generic;
 using Models;
 
-namespace LajmiBlazorWebApp.Services;
+namespace LajmiBlazorWebApp.Client.Services;
 
 public class BasketService
 {
-    
     public List<Product> Items { get; private set; } = new();    
     // Her sikre vi at kun metoderne i denne klasse kan ændre NumOfProducts. Indkapsling
     private int _NumOfProducts = 0;
