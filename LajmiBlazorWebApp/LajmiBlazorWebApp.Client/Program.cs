@@ -8,6 +8,12 @@ class Program
     {
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
+        builder.Services.AddScoped(sp =>
+            new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:7174")
+            });
+
         await builder.Build().RunAsync();
     }
 }
