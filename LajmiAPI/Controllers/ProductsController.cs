@@ -1,7 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DataAcces.Context;
+using DataAcces.Repositories;
 using DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LajmiAPI.Controllers;
 
@@ -9,50 +8,25 @@ namespace LajmiAPI.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-    private readonly LajmiContext _context;
+    private readonly IProductRepository _productRepository;
 
-    public ProductsController(LajmiContext context)
+    public ProductsController(IProductRepository productRepository)
     {
-        _context = context;
+        _productRepository = productRepository;
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
     {
-        var products = await _context.Product
-            .Select(p => new ProductDto
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Description = p.Description,
-                Price = p.Price,
-                ImageUrl = p.ImageUrl
-            })
-            .ToListAsync();
-
+        var products = await _productRepository.GetAllAsync();
         return Ok(products);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductDto>> GetProduct(int id)
     {
-        var product = await _context.Product
-            .Where(p => p.Id == id)
-            .Select(p => new ProductDto
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Description = p.Description,
-                Price = p.Price,
-                ImageUrl = p.ImageUrl
-            })
-            .FirstOrDefaultAsync();
-
-        if (product == null)
-        {
-            return NotFound();
-        }
-
+        var product = await _productRepository.GetByIdAsync(id);
+        if (product == null) return NotFound();
         return Ok(product);
     }
 }

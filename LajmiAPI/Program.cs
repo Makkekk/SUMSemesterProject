@@ -1,4 +1,5 @@
 using DataAcces.Context;
+using DataAcces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -7,8 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<LajmiContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+
 builder.Services.AddControllers();
-builder.Services.AddOpenApi(); // New .NET 10 way
+builder.Services.AddOpenApi(); 
 
 builder.Services.AddCors(options =>
 {
@@ -20,8 +25,8 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi(); // Serves the JSON
-    app.MapScalarApiReference(); // Serves the UI at /scalar/v1
+    app.MapOpenApi(); 
+    app.MapScalarApiReference(); 
 }
 
 app.UseCors("AllowBlazorApp");
