@@ -1,13 +1,35 @@
 using DataAcces.Context;
+using DataAcces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddDbContext<LajmiContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+
+builder.Services.AddControllers();
+builder.Services.AddOpenApi(); 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorApp", policy =>
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
+
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi(); 
+    app.MapScalarApiReference(); 
+}
+
+app.UseCors("AllowBlazorApp");
 
 // Test connection
 using (var scope = app.Services.CreateScope())
@@ -25,4 +47,5 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.MapGet("/", () => "API is running");
+app.MapControllers();
 app.Run();

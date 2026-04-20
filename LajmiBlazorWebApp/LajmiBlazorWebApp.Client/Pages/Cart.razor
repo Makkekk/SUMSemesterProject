@@ -1,5 +1,6 @@
+@rendermode InteractiveAuto
 @page "/cart"
-@using LajmiBlazorWebApp.Services
+@using LajmiBlazorWebApp.Client.Services
 @using Models
 @inject BasketService basketService
 
@@ -27,12 +28,12 @@ else
                 <tr>
                     <td>
                         <div class="cart-item-info">
-                            <img src="@item.ImageUrl" alt="@item.Name" class="cart-image" />
-                            <span>@item.Name</span>
+                            <img src="@item.ImageUrl" alt="@item.ProductName" class="cart-image" />
+                            <span>@item.ProductName</span>
                         </div>
                     </td>
-                    <td>@item.Price.ToString("N2") kr.</td>
-                    <td>@( (item.Price ).ToString("N2") ) kr.</td>
+                    <td>@item.ProductPrice.ToString("N2") kr.</td>
+                    <td>@( (item.ProductPrice ).ToString("N2") ) kr.</td>
                 </tr>
             }
             </tbody>
