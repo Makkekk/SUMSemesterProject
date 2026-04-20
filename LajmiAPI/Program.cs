@@ -25,24 +25,27 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi(); 
-    app.MapScalarApiReference(); 
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseCors("AllowBlazorApp");
 
-// Test connection
-using (var scope = app.Services.CreateScope())
+// Optional: Only run connection test if specifically requested or not in EF tools
+if (!args.Contains("--no-test"))
 {
-    try
+    using (var scope = app.Services.CreateScope())
     {
-        var context = scope.ServiceProvider.GetRequiredService<LajmiContext>();
-        var canConnect = context.Database.CanConnect();
-        Console.WriteLine(canConnect ? "✓ Database connection successful!" : "✗ Connection failed");
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"✗ Connection error: {ex.Message}");
+        try
+        {
+            var context = scope.ServiceProvider.GetRequiredService<LajmiContext>();
+            var canConnect = context.Database.CanConnect();
+            Console.WriteLine(canConnect ? "Database connection successful!" : "Connection failed");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Connection error: {ex.Message}");
+        }
     }
 }
 
