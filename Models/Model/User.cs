@@ -17,8 +17,6 @@ public class User
     // Relation til CustomerCompany
     public Guid CompanyId { get; set; }
 
-    public CustomerCompany Company { get; set; }
-
     public CustomerCompany CustomerCompany { get; set; }
 
     

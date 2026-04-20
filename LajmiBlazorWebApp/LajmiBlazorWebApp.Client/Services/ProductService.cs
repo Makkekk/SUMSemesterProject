@@ -40,4 +40,22 @@ public class ProductService
             return null;
         }
     }
+
+    public async Task<ProductDto?> CreateProductAsync(ProductDto productDto)
+    {
+        try
+        {
+            var response = await _http.PostAsJsonAsync("api/products", productDto);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<ProductDto>();
+            }
+            return null;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating product: {ex.Message}");
+            return null;
+        }
+    }
 }

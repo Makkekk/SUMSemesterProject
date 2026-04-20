@@ -20,4 +20,19 @@ public static class UserMapper
             CompanyName = user.CustomerCompany?.CompanyName ?? "Ingen virksomhed"
         };
     }
+
+    public static User ToEntity(this UserDto userDto)
+    {
+        if (userDto == null)
+            return null;
+
+        return new User
+        {
+            UserId = userDto.UserId == Guid.Empty ? Guid.NewGuid() : userDto.UserId,
+            UserName = userDto.UserName,
+            UserEmail = userDto.UserEmail,
+            UserPhoneNumber = userDto.UserPhoneNumber,
+            CompanyId = userDto.CompanyId
+        };
+    }
 }

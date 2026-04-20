@@ -1,4 +1,4 @@
-﻿namespace DTO;
+namespace DTO;
 
 public class ProductDto
 {
@@ -7,4 +7,6 @@ public class ProductDto
     public string Description { get; set; }
     public decimal Price { get; set; }
     public string ImageUrl { get; set; }
+    public decimal Vat { get; set; }
+    public double ProductWeight { get; set; }
 }
