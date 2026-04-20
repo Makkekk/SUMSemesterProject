@@ -4,7 +4,6 @@ namespace Models;
 
 public class OrderLine
 {
-    
     [Key]
     public Guid OrderLineId { get; set; }
     public int OrderQuantity { get; set; }

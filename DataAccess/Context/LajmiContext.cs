@@ -3,6 +3,7 @@ using Models;
 
 namespace DataAcces.Context;
 
+
 public class LajmiContext : DbContext
 {
     ModelBuilder modelBuilder;

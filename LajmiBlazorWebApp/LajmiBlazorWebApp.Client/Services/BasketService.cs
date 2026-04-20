@@ -36,7 +36,7 @@ public class BasketService
 
         foreach (var product in Items)
         {
-            totalPrice += product.Price;
+            totalPrice += product.ProductPrice;
         }
         
         return totalPrice;

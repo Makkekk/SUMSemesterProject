@@ -11,5 +11,4 @@ public class OrderLabel
 
     public Guid OrderId { get; set; }
     public Order Order { get; set; }
-
 }

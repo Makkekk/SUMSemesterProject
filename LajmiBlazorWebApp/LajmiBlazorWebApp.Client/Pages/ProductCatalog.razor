@@ -11,15 +11,14 @@
     {
         <div class="product-card">
             <div class="image-container">
-                <img src="@product.ImageUrl" alt="@product.ProductName" />
+                <img src="@product.ImageUrl" alt="@product.ProductName"/>
             </div>
-            
             <div class="product-info">
                 <h3>@product.ProductName</h3>
                 <p class="price">
-                    @product.Price.ToString("N2") kr
+                    @product.ProductPrice.ToString("N2") kr
                 </p>
-                
+
                 <button class="btn-buy" @onclick="() => PlaceInCart(product.ProductId)">
                     Tilføj til kurv
                 </button>
@@ -29,6 +28,7 @@
 </div>
 
 @code {
+
     // ---------------------------    INFO ---------------------------
     // Hele pointen med dette er at simulerer data, der normalt ville komme fra en database eller et API 
     // Jeg sender hele data modellen op til GUI'en for test. Det skal self igennem DTO'en når vi er klar... /Jamal
@@ -36,15 +36,15 @@
 
     protected override void OnInitialized()
     {
-        
         products = new List<Product>
         {
-            new Product { ProductId = Guid.NewGuid(), ProductName = "Brazil - MANTIQUEIRA AZUL", Price = 85.00m, ImageUrl = "/Images/Products/AZUL.png",  },
-            new Product { ProductId = Guid.NewGuid(), ProductName = "Tasting Box - Flere muligheder", Price = 350.00m, ImageUrl = "/Images/Products/Fyr.png",  },
-            new Product { ProductId = Guid.NewGuid(), ProductName = "BWT magnesium filtre (3-pak)", Price = 129.00m, ImageUrl = "/Images/Products/Mag_Water.png",  },
-            new Product { ProductId = Guid.NewGuid(), ProductName = "54mm naked portafilter holder", Price = 399.00m, ImageUrl = "/Images/Products/Ruby.png", }
+            new Product { ProductId = Guid.NewGuid(), ProductName = "Brazil - MANTIQUEIRA AZUL", ProductPrice = 85.00m, ImageUrl = "/Images/Products/AZUL.png" },
+            new Product { ProductId = Guid.NewGuid(), ProductName = "Tasting Box - Flere muligheder", ProductPrice = 350.00m, ImageUrl = "/Images/Products/Fyr.png", },
+            new Product { ProductId = Guid.NewGuid(), ProductName = "BWT magnesium filtre (3-pak)", ProductPrice = 129.00m, ImageUrl = "/Images/Products/Mag_Water.png", },
+            new Product { ProductId = Guid.NewGuid(), ProductName = "54mm naked portafilter holder", ProductPrice = 399.00m, ImageUrl = "/Images/Products/Ruby.png", }
         };
     }
+
 // Denne metode er helt håbløs, men den virker for nu .... 
     private void PlaceInCart(Guid productId)
     {
@@ -55,9 +55,8 @@
             basketService.AddProduct(product);
             Console.WriteLine($"Tilføjet: {product.ProductName}");
         }
+
         basketService.AddProductcounter();
     }
-    
-    
 
 }

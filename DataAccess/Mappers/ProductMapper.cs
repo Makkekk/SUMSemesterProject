@@ -15,7 +15,7 @@ public static class ProductMapper
             ProductId = product.ProductId,
             Name = product.ProductName,
             Description = product.ProductDescription,
-            Price = product.Price,
+            Price = product.ProductPrice,
             ImageUrl = product.ImageUrl
         };
     }
