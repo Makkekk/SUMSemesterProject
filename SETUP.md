@@ -57,11 +57,21 @@ dotnet restore
 Pakker der bruges i projektet:
 - `Npgsql.EntityFrameworkCore.PostgreSQL` — forbindelse til PostgreSQL/Supabase
 - `Microsoft.EntityFrameworkCore` — ORM til databaseadgang
-- `Microsoft.AspNetCore.OpenApi` — API-dokumentation
+- `Microsoft.AspNetCore.OpenApi` — .NET 10 standard API-dokumentation
+- `Scalar.AspNetCore` — Moderne interaktivt API-testværktøj (Scalar)
 
 ---
 
-## 5. Åbn i Rider
+## 5. API Dokumentation & Test
+
+Når API'et kører, kan du teste endpoints via Scalar (moderne alternativ til Swagger):
+
+- **Scalar UI:** `http://localhost:5055/scalar/v1`
+- **OpenAPI Spec (JSON):** `http://localhost:5055/openapi/v1.json`
+
+---
+
+## 6. Åbn i Rider
 
 1. Åbn Rider
 2. Vælg **Open**
@@ -95,7 +105,48 @@ SUMSemesterProjekt/
 
 ---
 
-## 8. Problemer?
+## 9. Database Management (EF Core)
+
+Projektet bruger **Entity Framework Core** til at styre databasen. Her er de vigtigste kommandoer.
+
+### Forudsætning: Installer EF Core værktøjet
+Hvis du ikke har `dotnet-ef` installeret globalt, skal du køre denne først:
+```bash
+dotnet tool install --global dotnet-ef
+```
+
+### Opret en ny Migration (Database-ændring)
+Hver gang du ændrer i dine **Models** eller i **LajmiContext**, skal du oprette en ny migration:
+```bash
+dotnet ef migrations add <Navn_På_Ændring> --project DataAccess --startup-project LajmiAPI
+```
+*Eksempel: `dotnet ef migrations add InitialCreate --project DataAccess --startup-project LajmiAPI`*
+
+### Opdater Databasen (Push ændringer til Supabase)
+Kør denne for at sende dine lokale ændringer op til den rigtige database:
+```bash
+dotnet ef database update --project DataAccess --startup-project LajmiAPI
+```
+
+### Fortryd sidste Migration (Fjern fra kode)
+Hvis du har lavet en fejl i din sidste migration, men **IKKE** har opdateret databasen endnu:
+```bash
+dotnet ef migrations remove --project DataAccess --startup-project LajmiAPI
+```
+
+### Slet alt i Databasen (CAUTION!)
+Denne sletter alle tabeller i databasen (brug med forsigtighed!):
+```bash
+dotnet ef database drop --project DataAccess --startup-project LajmiAPI
+```
+
+### Hvorfor de mange flag?
+- `--project DataAccess`: Fortæller EF Core, at dine modeller og `LajmiContext` ligger i DataAccess-projektet.
+- `--startup-project LajmiAPI`: Fortæller EF Core, at den skal læse din connection string fra `appsettings.json` i API-projektet.
+
+---
+
+## 10. Problemer?
 
 **`dotnet restore` fejler** — Tjek at .NET 10 SDK er installeret (`dotnet --version`)
 

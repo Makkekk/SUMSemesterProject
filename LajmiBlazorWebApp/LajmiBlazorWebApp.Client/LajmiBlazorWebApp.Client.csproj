@@ -13,4 +13,17 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.5"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\DTO\DTO.csproj" />
+      <ProjectReference Include="..\..\Models\Models.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Components\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Components\Layout\HeaderLayout.razor" />
+    </ItemGroup>
+
 </Project>

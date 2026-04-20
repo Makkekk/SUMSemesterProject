@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Models;
 
 public class OrderLine
 {
+    [Key]
     public Guid OrderLineId { get; set; }
     public int OrderQuantity { get; set; }
     public decimal UnitPrice { get; set; }
@@ -13,5 +16,5 @@ public class OrderLine
 
     // Composition til Order
     public Guid OrderId { get; set; }
-    
+
 }
