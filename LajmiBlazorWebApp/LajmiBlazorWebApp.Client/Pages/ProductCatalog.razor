@@ -1,6 +1,6 @@
 @rendermode InteractiveAuto
 @page "/products"
-@using LajmiBlazorWebApp.Services
+@using LajmiBlazorWebApp.Client.Services
 @using Models
 @inject BasketService basketService
 
@@ -11,16 +11,16 @@
     {
         <div class="product-card">
             <div class="image-container">
-                <img src="@product.ImageUrl" alt="@product.Name" />
+                <img src="@product.ImageUrl" alt="@product.ProductName" />
             </div>
             
             <div class="product-info">
-                <h3>@product.Name</h3>strukt
+                <h3>@product.ProductName</h3>
                 <p class="price">
                     @product.Price.ToString("N2") kr
                 </p>
                 
-                <button class="btn-buy" @onclick="() => PlaceInCart(product.Id)">
+                <button class="btn-buy" @onclick="() => PlaceInCart(product.ProductId)">
                     Tilføj til kurv
                 </button>
             </div>
@@ -39,21 +39,21 @@
         
         products = new List<Product>
         {
-            new Product { Id = 1, Name = "Brazil - MANTIQUEIRA AZUL", Price = 85.00m, ImageUrl = "/Images/Products/AZUL.png",  },
-            new Product { Id = 2, Name = "Tasting Box - Flere muligheder", Price = 350.00m, ImageUrl = "/Images/Products/Fyr.png",  },
-            new Product { Id = 3, Name = "BWT magnesium filtre (3-pak)", Price = 129.00m, ImageUrl = "/Images/Products/Mag_Water.png",  },
-            new Product { Id = 4, Name = "54mm naked portafilter holder", Price = 399.00m, ImageUrl = "/Images/Products/Ruby.png", }
+            new Product { ProductId = Guid.NewGuid(), ProductName = "Brazil - MANTIQUEIRA AZUL", Price = 85.00m, ImageUrl = "/Images/Products/AZUL.png",  },
+            new Product { ProductId = Guid.NewGuid(), ProductName = "Tasting Box - Flere muligheder", Price = 350.00m, ImageUrl = "/Images/Products/Fyr.png",  },
+            new Product { ProductId = Guid.NewGuid(), ProductName = "BWT magnesium filtre (3-pak)", Price = 129.00m, ImageUrl = "/Images/Products/Mag_Water.png",  },
+            new Product { ProductId = Guid.NewGuid(), ProductName = "54mm naked portafilter holder", Price = 399.00m, ImageUrl = "/Images/Products/Ruby.png", }
         };
     }
 // Denne metode er helt håbløs, men den virker for nu .... 
-    private void PlaceInCart(int productId)
+    private void PlaceInCart(Guid productId)
     {
-        var product = products.FirstOrDefault(p => p.Id == productId);
+        var product = products.FirstOrDefault(p => p.ProductId == productId);
 
         if (product != null)
         {
             basketService.AddProduct(product);
-            Console.WriteLine($"Tilføjet: {product.Name}");
+            Console.WriteLine($"Tilføjet: {product.ProductName}");
         }
         basketService.AddProductcounter();
     }

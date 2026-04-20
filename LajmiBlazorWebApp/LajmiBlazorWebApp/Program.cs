@@ -1,5 +1,5 @@
 using LajmiBlazorWebApp.Components;
-using LajmiBlazorWebApp.Services;
+using LajmiBlazorWebApp.Client.Services;
 
 namespace LajmiBlazorWebApp;
 
@@ -16,9 +16,17 @@ public class Program
         
         // delt service pr. bruger (1 kurv pr bruger)
         builder.Services.AddScoped<BasketService>();
+        
+        builder.Services.AddScoped<ProductService>();
+
+        builder.Services.AddScoped(sp =>
+            new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:7174")
+            });
+
         var app = builder.Build();
         
-       
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
