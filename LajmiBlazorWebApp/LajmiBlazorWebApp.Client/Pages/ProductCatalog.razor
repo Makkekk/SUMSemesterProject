@@ -3,6 +3,7 @@
 @using LajmiBlazorWebApp.Client.Services
 @using Models
 @inject BasketService basketService
+@inject CalculateDiscountService calculateDiscountService
 
 <h1>Vores Produkter</h1>
 
@@ -15,8 +16,24 @@
             </div>
             <div class="product-info">
                 <h3>@product.ProductName</h3>
+
                 <p class="price">
-                    @product.ProductPrice.ToString("N2") kr
+                    @if (discount > 0)
+                    {
+                        <span style="text-decoration: line-through;">
+                            @product.ProductPrice.ToString("N2") kr
+                        </span>
+                        <br/>
+                        <strong>
+                            @GetDiscountedPrice(product).ToString("N2") kr
+                        </strong>
+                    }
+                    else
+                    {
+                        <span>
+                        @product.ProductPrice.ToString("N2") kr
+                        </span>
+                    }
                 </p>
 
                 <button class="btn-buy" @onclick="() => PlaceInCart(product.ProductId)">
@@ -32,6 +49,10 @@
     // ---------------------------    INFO ---------------------------
     // Hele pointen med dette er at simulerer data, der normalt ville komme fra en database eller et API 
     // Jeg sender hele data modellen op til GUI'en for test. Det skal self igennem DTO'en når vi er klar... /Jamal
+
+
+    private decimal discount = 0.2m;
+
     private List<Product> products = new();
 
     protected override void OnInitialized()
@@ -57,6 +78,12 @@
         }
 
         basketService.AddProductcounter();
+    }
+
+    private decimal GetDiscountedPrice(Product product)
+    {
+        decimal discount = 0.2m; // dummy
+        return calculateDiscountService.CalculatePrice(product, discount);
     }
 
 }
