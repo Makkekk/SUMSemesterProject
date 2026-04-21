@@ -12,7 +12,7 @@ public class LajmiContext : DbContext
     public DbSet<User> User { get; set; }
     public DbSet<Product> Product { get; set; }
     public DbSet<Order> Order { get; set; }
-
+    public DbSet<DiscountAgreement> DiscountAgreement { get; set; }
     public DbSet<CustomerCompany> CustomerCompany { get; set; }
     //public DbSet<OrderLine> OrderLine { get; set; } måske ikke nødvendig, da den bliver oprettet via ordren
     //public DbSet<OrderLabel> orderLabel { get; set; } Forstiller mig det er det samme som ovenstående
