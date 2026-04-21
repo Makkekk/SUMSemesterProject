@@ -1,4 +1,5 @@
 using DataAcces.Context;
+using DataAcces.Mappers;
 using DTO;
 using Microsoft.EntityFrameworkCore;
 using Models;
@@ -16,23 +17,11 @@ public class OrderRepository
 
     public async Task<IEnumerable<OrderDto>> GetAllActiveProducts()
     {
-
         return await _context.Order
             .Include(o => o.CustomerCompany)
             .Include(o => o.OrderLines)
-            .Where(o => o.OrderStatus == OrderStatus.ACTIVE)
-            .Select(o => new OrderDto
-            {
-                orderId = o.OrderId,
-                OrderDate = o.OrderDate,
-                status = o.OrderStatus.ToString(),
-                CompanyName = o.CustomerCompany.CompanyName,
-                Lines = o.OrderLines.Select(ol => new OrderLineDto){
-                ProductId = ol.ProductId,
-                Quantity = ol.Quantity
-            }).ToList()
-            })
+            .Where( o => o.OrderStatus == OrderStatus.ACTIVE)
+            .Select(o => OrderMapper.MapToDto(o))
             .ToListAsync();
-
     }
 }

@@ -12,6 +12,7 @@ class Program
         
         builder.Services.AddScoped<BasketService>();
         builder.Services.AddScoped<ProductService>();
+        builder.Services.AddScoped<OrderService>();
         builder.Services.AddScoped<CalculateDiscountService>();
         builder.Services.AddScoped(sp =>
             new HttpClient

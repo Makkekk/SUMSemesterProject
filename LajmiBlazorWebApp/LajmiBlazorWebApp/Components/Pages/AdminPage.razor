@@ -1,12 +1,14 @@
 @rendermode InteractiveAuto
+@inject IOrderService OrderService
 @page "/AdminPage"
+@using DTO
 <h3>Velkommen Sofian Lajmi</h3>
 
 <div>
     <h2 class="Overskrift">Ordreoversigt</h2>
 </div>
 
-@if (GetAllActiveProducts == null || !GetAllActiveProducts.Any())
+@if (orders == null || !orders.Any())
 {
     <p>Der er ingen ordre klar til at blive pakket og afsendt... tid til Dota</p>
 }
@@ -23,14 +25,17 @@ else
             </tr>
             </thead>
             <tbody>
-            @foreach (var ord in GetAllActiveProducts)
+            @foreach (var ordre in orders)
             {
-                <tr>
-                    <td>@ord.Ordrenummer</td>
-                    <td>@ord.Kundenavn</td>
-                    <td>@ord.Bønner</td>
-                    <td>@ord.Mængde</td>
-                </tr>
+                @foreach (var linje in ordre.Lines)
+                {
+                    <tr>
+                        <td>@ordre.orderId</td>
+                        <td>@ordre.CompanyName</td>
+                        <td>@linje.ProductName</td>
+                        <td>@linje.Quantity</td>
+                    </tr>
+                }
             }
             </tbody>
         </table>
@@ -38,5 +43,11 @@ else
 }
 
 @code {
-    
+
+    List<OrderDto> orders;
+    // Blazor suntax for automatisk at køre denne metode ved opstart.
+    protected override async Task OnInitializedAsync()
+    {
+        orders = await OrderService.GetAllActiveProducts();
+    }
 }

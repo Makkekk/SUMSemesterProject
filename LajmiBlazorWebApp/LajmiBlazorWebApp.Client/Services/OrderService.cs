@@ -1,15 +1,20 @@
+using System.Net.Http.Json;
 using DTO;
 
 namespace LajmiBlazorWebApp.Client.Services;
 
 public class OrderService : IOrderService
 {
-    public Task<List<ProductDto>> GetAllActiveProducts()
+    private readonly HttpClient _httpClient;
+    
+    public OrderService(HttpClient httpClient)
     {
-        HttpClient client = new HttpClient();
-        
-        client.GetAsync("https://localhost:5001/api/Order/GetAllActiveProducts"); // ehhh.... hjæælp mig
-        
-        throw new NotImplementedException();
+        _httpClient = httpClient;
+    }
+    public async Task<List<OrderDto>> GetAllActiveProducts()
+    {
+        var orders = await
+            _httpClient.GetFromJsonAsync<List<OrderDto>>("api/Orders/activeOrders");
+        return orders ?? new List<OrderDto>();
     }
 }
