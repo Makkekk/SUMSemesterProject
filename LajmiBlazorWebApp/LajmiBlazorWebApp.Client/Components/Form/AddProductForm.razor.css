@@ -1,48 +1,52 @@
-.produkt-container {
+.product-container {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     max-width: 500px;
-    padding : 20px;
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    margin: 20px auto;
 }
 
-.felt-gruppe {
+.field-group {
     margin-bottom: 15px;
 }
 
-.etiket {
+.label {
     display: block;
-    font-weight: 600;
     margin-bottom: 5px;
+    font-weight: bold;
     color: #333;
 }
-.input-felt {
+
+.input-field {
     width: 100%;
-    padding: 8px 12px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
 }
-.række {
+
+.row {
     display: flex;
-    gap: 15px;
+    gap: 10px;
 }
-.halv {
+
+.half {
     flex: 1;
 }
-.gem-knap {
+
+.save-button {
     width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color:white;
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
     border: none;
-    border-radius: 5px;
-    font-weight: bold;
+    border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
     transition: background-color 0.2s;
 }
 
-.gem-knap:hover {
-    background-color: #0056b3
+.save-button:hover {
+    background-color: #218838;
 }

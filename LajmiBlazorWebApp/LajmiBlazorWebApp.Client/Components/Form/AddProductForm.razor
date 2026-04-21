@@ -1,24 +1,24 @@
 @using DTO
 
-<div class="produkt-container">
-    <div class="felt-gruppe">
-        <label class="etiket">Navn</label>
-        <input @bind="produkt.Name" class="input-felt" placeholder="Indtast produktnavn" />
+<div class="product-container">
+    <div class="field-group">
+        <label class="label">Navn</label>
+        <input @bind="product.Name" class="input-field" placeholder="Indtast produktnavn" />
     </div>
 
-    <div class="felt-gruppe">
-        <label class="etiket">Beskrivelse</label>
-        <textarea @bind="produkt.Description" class="input-felt" rows="3" placeholder="Indtast beskrivelse"></textarea>
+    <div class="field-group">
+        <label class="label">Beskrivelse</label>
+        <textarea @bind="product.Description" class="input-field" rows="3" placeholder="Indtast beskrivelse"></textarea>
     </div>
 
-    <div class="række">
-        <div class="felt-gruppe halv">
-            <label class="etiket">Pris (kr.)</label>
-            <input type="number" @bind="produkt.Price" class="input-felt" placeholder="Indtast pris" />
+    <div class="row">
+        <div class="field-group half">
+            <label class="label">Pris (kr.)</label>
+            <input type="number" @bind="product.Price" class="input-field" placeholder="Indtast pris" />
         </div>
-        <div class="felt-gruppe halv">
-            <label class="etiket">Vægt</label>
-            <select @bind="produkt.ProductWeight" class="input-felt">
+        <div class="field-group half">
+            <label class="label">Vægt</label>
+            <select @bind="product.ProductWeight" class="input-field">
                 <option value="0.25">250g</option>
                 <option value="0.5">500g</option>
                 <option value="1.0">1000g</option>
@@ -26,24 +26,24 @@
         </div>
     </div>
 
-    <div class="felt-gruppe">
-        <label class="etiket">Billede URL</label>
-        <input @bind="produkt.ImageUrl" class="input-felt" placeholder="Indtast billede URL" />
+    <div class="field-group">
+        <label class="label">Billede URL</label>
+        <input @bind="product.ImageUrl" class="input-field" placeholder="Indtast billede URL" />
     </div>
 
-    <button class="gem-knap" @onclick="Gem">Gem produkt</button>
+    <button class="save-button" @onclick="Save">Gem produkt</button>
 </div>
 
 @code {
-    private ProductDto produkt = new ProductDto { Vat = 25, ProductWeight = 0.5 };
+    private ProductDto product = new ProductDto { Vat = 25, ProductWeight = 0.5 };
     
-    [Parameter] public EventCallback<ProductDto> OnGem { get; set; }
+    [Parameter] public EventCallback<ProductDto> OnSave { get; set; }
 
-    private async Task Gem()
+    private async Task Save()
     {
-        await OnGem.InvokeAsync(produkt);
+        await OnSave.InvokeAsync(product);
         
-        // Nulstiller formen
-        produkt = new ProductDto { Vat = 25, ProductWeight = 0.5 };
+        
+        product = new ProductDto { Vat = 25, ProductWeight = 0.5 };
     }
 }
