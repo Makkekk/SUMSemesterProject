@@ -19,14 +19,14 @@ public class Program
         
         builder.Services.AddScoped<ProductService>();
         
-        builder.Services.AddScoped<OrderService>();
+        builder.Services.AddScoped<IOrderService, OrderService>();
         
         builder.Services.AddScoped<CalculateDiscountService>();
 
         builder.Services.AddScoped(sp =>
             new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:7174")
+                BaseAddress = new Uri("http://localhost:5055")
             });
 
         var app = builder.Build();

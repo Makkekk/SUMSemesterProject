@@ -13,8 +13,7 @@ public class OrderService : IOrderService
     }
     public async Task<List<OrderDto>> GetAllActiveProducts()
     {
-        var orders = await
-            _httpClient.GetFromJsonAsync<List<OrderDto>>("api/Orders/activeOrders");
+        var orders = await _httpClient.GetFromJsonAsync<List<OrderDto>>("api/Orders/activeOrders");
         return orders ?? new List<OrderDto>();
     }
 }

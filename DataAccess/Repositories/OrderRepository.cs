@@ -17,11 +17,12 @@ public class OrderRepository
 
     public async Task<IEnumerable<OrderDto>> GetAllActiveProducts()
     {
-        return await _context.Order
+        var orders = await _context.Order
             .Include(o => o.CustomerCompany)
             .Include(o => o.OrderLines)
-            .Where( o => o.OrderStatus == OrderStatus.ACTIVE)
-            .Select(o => OrderMapper.MapToDto(o))
-            .ToListAsync();
+            .Where(o => o.OrderStatus == OrderStatus.ACTIVE)
+            .ToListAsync(); 
+
+        return orders.Select(o => OrderMapper.MapToDto(o));
     }
 }

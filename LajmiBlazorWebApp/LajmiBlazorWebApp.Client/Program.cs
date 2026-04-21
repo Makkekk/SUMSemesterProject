@@ -12,12 +12,12 @@ class Program
         
         builder.Services.AddScoped<BasketService>();
         builder.Services.AddScoped<ProductService>();
-        builder.Services.AddScoped<OrderService>();
+        builder.Services.AddScoped<IOrderService>();
         builder.Services.AddScoped<CalculateDiscountService>();
         builder.Services.AddScoped(sp =>
             new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:7174")
+                BaseAddress = new Uri("http://localhost:5055")
             });
 
         await builder.Build().RunAsync();
