@@ -1,5 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11612.150 stable
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusninessLogic", "BusninessLogic\BusninessLogic.csproj", "{EB69A119-F251-450D-B722-ADF5356806FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAcces", "DataAccess\DataAcces.csproj", "{79CDD34B-4443-44E1-81D9-D9C7CE9D2384}"
@@ -48,5 +51,8 @@ Global
 		{22199E8D-870C-4D29-BB55-7961DCB05A87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22199E8D-870C-4D29-BB55-7961DCB05A87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22199E8D-870C-4D29-BB55-7961DCB05A87}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
