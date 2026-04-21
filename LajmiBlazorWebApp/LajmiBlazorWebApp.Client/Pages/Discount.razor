@@ -1,0 +1,58 @@
+@page "/discounts"
+@inject HttpClient Http
+@using Models
+
+<h3>Rabat</h3>
+
+<PageTitle>Rabat</PageTitle>
+
+@if (discountAgreements.Count == 0)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <table class="discount-table">
+        <thead>
+        <tr>
+            <th>Rabataftale beskrivelse</th>
+            <th>Firma id</th>
+            <th>Kunde Firma</th>
+            <th>Rabat id</th>
+            <th>Rabat procent</th>
+            <th>Gældende fra</th>
+            <th>Gældende til</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var discountAgreement in discountAgreements)
+        {
+            <tr>
+                <td>@discountAgreement.AgreementDescription</td>
+                <td>@discountAgreement.CompanyId</td>
+                <td>@discountAgreement.CustomerCompany</td>
+                <td>@discountAgreement.DiscountId</td>
+                <td>@discountAgreement.DiscountPercentage</td>
+                <td>@discountAgreement.DiscountValidFrom</td>
+                <td>@discountAgreement.DiscountValidTo</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<DiscountAgreement> discountAgreements = new List<DiscountAgreement>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        var res = await Http.GetFromJsonAsync<List<DiscountAgreement>>("api/discount");
+        if (res != null)
+        {
+            discountAgreements = res;
+        }
+    }
+}
