@@ -1,6 +1,7 @@
 @page "/discounts"
-@inject HttpClient Http
-@using Models
+@using DTO
+@inject DiscountAgreementService DiscountAgreement
+@rendermode InteractiveAuto
 
 <h3>Rabat</h3>
 
@@ -44,15 +45,10 @@ else
 }
 
 @code {
-    List<DiscountAgreement> discountAgreements = new List<DiscountAgreement>();
+    List<DiscountAgreementDto> discountAgreements = new List<DiscountAgreementDto>();
 
     protected override async Task OnInitializedAsync()
     {
-        
-        var res = await Http.GetFromJsonAsync<List<DiscountAgreement>>("api/discount");
-        if (res != null)
-        {
-            discountAgreements = res;
-        }
+        discountAgreements = await DiscountAgreement.GetAllDiscountsAsync();
     }
 }

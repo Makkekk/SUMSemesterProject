@@ -1,4 +1,6 @@
 using DataAcces.Context;
+using DataAcces.Repositories;
+using DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
@@ -9,16 +11,17 @@ namespace LajmiAPI.Controllers;
 [ApiController]
 public class DiscountController : ControllerBase
 {
-    private readonly LajmiContext _context;
+    private readonly IDiscountAgreementRepository _discountAgreement;
 
-    public DiscountController(LajmiContext context)
+    public DiscountController(IDiscountAgreementRepository discountAgreement)
     {
-        _context = context;
+        _discountAgreement = discountAgreement;
     }
-
+    
     [HttpGet]
-    public async Task<ActionResult<List<DiscountAgreement>>> GetAllDiscountsAsync()
+    public async Task<ActionResult<IEnumerable<DiscountAgreementDto>>> GetAllDiscountsAsync()
     {
-        return await _context.DiscountAgreement.ToListAsync();
+        var d = await _discountAgreement.GetAllDiscountsAsync();
+            return Ok(d);
     }
 }
