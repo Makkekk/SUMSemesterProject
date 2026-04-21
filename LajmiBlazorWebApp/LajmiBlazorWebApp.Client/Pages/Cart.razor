@@ -28,20 +28,39 @@ else
                 <tr>
                     <td>
                         <div class="cart-item-info">
-                            <img src="@item.ImageUrl" alt="@item.ProductName" class="cart-image" />
+                            <img src="@item.ImageUrl" alt="@item.ProductName" class="cart-image"/>
                             <span>@item.ProductName</span>
                         </div>
                     </td>
-                    <td>@item.ProductPrice.ToString("N2") kr.</td>
-                    <td>@( (item.ProductPrice ).ToString("N2") ) kr.</td>
+                    <!-- Overstreger pris uden rabat og viser prisen med rabat -->
+                    <td>  @if (discount > 0)
+                          {
+                              <span style="text-decoration: line-through;">
+                                  @item.ProductPrice.ToString("N2") kr.
+                              </span>
+                              <br />
+                              <strong>
+                                  @basketService.GetDiscountedPrice(item, discount).ToString("N2") kr.
+                              </strong>
+                          }
+                          else
+                          {
+                              <span>
+                                  @item.ProductPrice.ToString("N2") kr.
+                              </span>
+                          }</td>
                 </tr>
             }
             </tbody>
         </table>
 
         <div class="cart-summary">
-            <h3>Samlet beløb: @basketService.GetToalPrice().ToString("N2") kr.</h3>
+            <h3>Samlet beløb: @basketService.GetTotalPrice(discount).ToString("N2") kr.</h3>
             <button class="btn-checkout">Gå til betaling</button>
         </div>
     </div>
+}
+@code {
+    // Dette er bare dummy data. Fjernes senere
+    private decimal discount = 0.2m;
 }
