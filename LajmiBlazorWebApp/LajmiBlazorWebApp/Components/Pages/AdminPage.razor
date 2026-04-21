@@ -1,0 +1,42 @@
+@rendermode InteractiveAuto
+@page "/AdminPage"
+<h3>Velkommen Sofian Lajmi</h3>
+
+<div>
+    <h2 class="Overskrift">Ordreoversigt</h2>
+</div>
+
+@if (GetAllActiveProducts == null || !GetAllActiveProducts.Any())
+{
+    <p>Der er ingen ordre klar til at blive pakket og afsendt... tid til Dota</p>
+}
+else
+{
+    <div class="ordreContainer">
+        <table>
+            <thead>
+            <tr>
+                <th>Ordrenummer</th>
+                <th>Kundenavn</th>
+                <th>Bønner</th>
+                <th>Mængde (kg)</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var ord in GetAllActiveProducts)
+            {
+                <tr>
+                    <td>@ord.Ordrenummer</td>
+                    <td>@ord.Kundenavn</td>
+                    <td>@ord.Bønner</td>
+                    <td>@ord.Mængde</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    
+}
