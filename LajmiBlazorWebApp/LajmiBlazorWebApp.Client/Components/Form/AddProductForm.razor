@@ -1,0 +1,49 @@
+@using DTO
+
+<div class="produkt-container">
+    <div class="felt-gruppe">
+        <label class="etiket">Navn</label>
+        <input @bind="produkt.Name" class="input-felt" placeholder="Indtast produktnavn" />
+    </div>
+
+    <div class="felt-gruppe">
+        <label class="etiket">Beskrivelse</label>
+        <textarea @bind="produkt.Description" class="input-felt" rows="3" placeholder="Indtast beskrivelse"></textarea>
+    </div>
+
+    <div class="række">
+        <div class="felt-gruppe halv">
+            <label class="etiket">Pris (kr.)</label>
+            <input type="number" @bind="produkt.Price" class="input-felt" placeholder="Indtast pris" />
+        </div>
+        <div class="felt-gruppe halv">
+            <label class="etiket">Vægt</label>
+            <select @bind="produkt.ProductWeight" class="input-felt">
+                <option value="0.25">250g</option>
+                <option value="0.5">500g</option>
+                <option value="1.0">1000g</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="felt-gruppe">
+        <label class="etiket">Billede URL</label>
+        <input @bind="produkt.ImageUrl" class="input-felt" placeholder="Indtast billede URL" />
+    </div>
+
+    <button class="gem-knap" @onclick="Gem">Gem produkt</button>
+</div>
+
+@code {
+    private ProductDto produkt = new ProductDto { Vat = 25, ProductWeight = 0.5 };
+    
+    [Parameter] public EventCallback<ProductDto> OnGem { get; set; }
+
+    private async Task Gem()
+    {
+        await OnGem.InvokeAsync(produkt);
+        
+        // Nulstiller formen
+        produkt = new ProductDto { Vat = 25, ProductWeight = 0.5 };
+    }
+}

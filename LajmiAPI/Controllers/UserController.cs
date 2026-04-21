@@ -1,3 +1,4 @@
+using DataAcces.Mappers;
 using DataAcces.Repositories;
 using DTO;
 using Microsoft.AspNetCore.Mvc;
@@ -32,9 +33,13 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<UserDto>> CreateUser(User user)
+    public async Task<ActionResult<UserDto>> CreateUser(UserDto userDto)
     {
-        var createdUser = await _userRepository.CreateAsync(user);
+
+        var userEnity = userDto.ToEntity();
+        
+        var createdUser = await _userRepository.CreateAsync(userEnity);
+        
         return CreatedAtAction(nameof(GetUser), new { id = createdUser.UserId }, createdUser);
     }
 

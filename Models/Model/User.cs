@@ -11,13 +11,12 @@ public class User
     [Required]
     public string UserEmail { get; set; }
     [Required]
-
     public string? UserPhoneNumber { get; set; }
+    
+    public string PasswordHash { get; set; } 
 
     // Relation til CustomerCompany
     public Guid CompanyId { get; set; }
 
     public CustomerCompany CustomerCompany { get; set; }
-
-    
 }

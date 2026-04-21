@@ -17,7 +17,6 @@ public static class UserMapper
             UserEmail = user.UserEmail,
             UserPhoneNumber = user.UserPhoneNumber,
             CompanyId = user.CompanyId,
-            CompanyName = user.CustomerCompany?.CompanyName ?? "Ingen virksomhed"
         };
     }
 
