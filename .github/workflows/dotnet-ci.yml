@@ -46,7 +46,7 @@ jobs:
         run: dotnet publish LajmiAPI/LajmiAPI.csproj -c Release -o out/api
 
       - name: Publish WebApp
-        run: dotnet publish LajmiWebApp/LajmiWebApp.csproj -c Release -o out/webapp
+        run: dotnet publish LajmiBlazorWebApp/LajmiBlazorWebApp/LajmiBlazorWebApp.csproj -c Release -o out/webapp
 
       - name: Upload API artifact
         uses: actions/upload-artifact@v4
