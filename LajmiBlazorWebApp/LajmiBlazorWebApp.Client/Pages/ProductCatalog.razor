@@ -2,7 +2,7 @@
 @page "/products"
 @using LajmiBlazorWebApp.Client.Services
 @using Models
-@inject BasketService basketService
+@inject CartService CartService
 @inject CalculateDiscountService calculateDiscountService
 
 <h1>Vores Produkter</h1>
@@ -73,11 +73,11 @@
 
         if (product != null)
         {
-            basketService.AddProduct(product);
+            CartService.AddProduct(product);
             Console.WriteLine($"Tilføjet: {product.ProductName}");
         }
 
-        basketService.AddProductcounter();
+        CartService.AddProductcounter();
     }
 
     private decimal GetDiscountedPrice(Product product)
