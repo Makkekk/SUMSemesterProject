@@ -12,7 +12,4 @@ public class DiscountAgreement
     public DateTime DiscountValidTo { get; set; }
 
     public Guid CompanyId { get; set; }
-    
-    public CustomerCompany CustomerCompany { get; set; } 
-
 }
