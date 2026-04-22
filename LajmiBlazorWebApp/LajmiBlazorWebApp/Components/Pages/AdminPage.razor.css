@@ -1,0 +1,27 @@
+.ordreContainer {
+    max-height: 400px;   
+    overflow-y: auto;    
+    overflow-x: hidden;  
+    border: 1px solid;
+    border-radius: 8px;
+}
+
+.ordreContainer table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ordreContainer thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f5f5f5;
+    z-index: 1;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+}
+
+.ordreContainer tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}

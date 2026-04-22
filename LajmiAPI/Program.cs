@@ -11,6 +11,8 @@ builder.Services.AddDbContext<LajmiContext>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<OrderRepository>();
+
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi(); 
