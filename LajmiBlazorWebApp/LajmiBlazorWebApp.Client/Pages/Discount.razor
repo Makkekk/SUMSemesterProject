@@ -33,7 +33,6 @@ else
             <tr>
                 <td>@discountAgreement.AgreementDescription</td>
                 <td>@discountAgreement.CompanyId</td>
-                <td>@discountAgreement.CustomerCompany</td>
                 <td>@discountAgreement.DiscountId</td>
                 <td>@discountAgreement.DiscountPercentage</td>
                 <td>@discountAgreement.DiscountValidFrom</td>
@@ -46,7 +45,7 @@ else
 
 @code {
     List<DiscountAgreementDto> discountAgreements = new List<DiscountAgreementDto>();
-
+    
     protected override async Task OnInitializedAsync()
     {
         discountAgreements = await DiscountAgreement.GetAllDiscountsAsync();
