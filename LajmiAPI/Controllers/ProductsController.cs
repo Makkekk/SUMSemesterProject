@@ -29,4 +29,11 @@ public class ProductsController : ControllerBase
         if (product == null) return NotFound();
         return Ok(product);
     }
+
+    [HttpPost]
+    public async Task<ActionResult<ProductDto>> CreateProduct(ProductDto productDto)
+    {
+        var createdProduct = await _productRepository.CreateProductAsync(productDto);
+        return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.ProductId }, createdProduct);
+    }
 }

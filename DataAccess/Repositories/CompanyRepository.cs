@@ -25,7 +25,6 @@ public class CompanyRepository : ICompanyRepository
     public async Task<IEnumerable<CustomerCompanyDto>> GetAllAsync()
     {
         var companies = await _context.CustomerCompany.Include(c => c.DiscountAgreement).ToListAsync();
-
         return companies.Select(c => c.ToDto());
     }
 

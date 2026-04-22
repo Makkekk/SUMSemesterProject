@@ -10,6 +10,7 @@ public interface IProductRepository
 {
     Task<IEnumerable<ProductDto>> GetAllAsync();
     Task<ProductDto> GetByIdAsync(Guid id);
+    Task<ProductDto> CreateProductAsync(ProductDto productDto);
 }
 
 public class ProductRepository : IProductRepository
@@ -30,6 +31,16 @@ public class ProductRepository : IProductRepository
     public async Task<ProductDto> GetByIdAsync(Guid id)
     {
         var product = await _context.Product.FindAsync(id);
+        return product?.ToDto();
+    }
+
+    public async Task<ProductDto> CreateProductAsync(ProductDto productDto)
+    {
+        var product = productDto.ToEntity();
+        
+        await _context.Product.AddAsync(product);
+        await _context.SaveChangesAsync();
+        
         return product.ToDto();
     }
 }
