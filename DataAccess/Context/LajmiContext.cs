@@ -42,7 +42,7 @@ public class LajmiContext : DbContext
         modelBuilder.Entity<Order>().HasMany(o => o.OrderLabels).WithOne().HasForeignKey(ol => ol.OrderId);
 
         //Company -> DiscountAgreement (1:1)
-        modelBuilder.Entity<CustomerCompany>().HasOne(c => c.DiscountAgreement).WithOne(d => d.CustomerCompany).HasForeignKey<DiscountAgreement>(d => d.CompanyId);
+        //modelBuilder.Entity<CustomerCompany>().HasOne(c => c.DiscountAgreement).WithOne(d => d.CustomerCompany).HasForeignKey<DiscountAgreement>(d => d.CompanyId);
 
 
         //map enumklassen OrderStatus til string istedet for 0-1-2-3, Enumen er gemt istedet for ints

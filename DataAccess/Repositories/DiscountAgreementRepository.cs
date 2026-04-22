@@ -21,7 +21,7 @@ public class DiscountAgreementRepository : IDiscountAgreementRepository
 
     public async Task<IEnumerable<DiscountAgreementDto>> GetAllDiscountsAsync()
     {
-        var res = await _context.DiscountAgreement.Include(d => d.CustomerCompany).ToListAsync();
+        var res = await _context.DiscountAgreement.ToListAsync();
 
         return res.Select(d => d.ToDto());
     }

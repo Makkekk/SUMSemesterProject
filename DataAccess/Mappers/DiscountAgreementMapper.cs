@@ -16,7 +16,6 @@ public static class DiscountAgreementMapper
             DiscountPercentage = discountAgreement.DiscountPercentage,
             AgreementDescription = discountAgreement.AgreementDescription,
             CompanyId = discountAgreement.CompanyId,
-            CustomerCompany = discountAgreement.CustomerCompany,
             DiscountValidFrom = discountAgreement.DiscountValidFrom,
             DiscountValidTo = discountAgreement.DiscountValidTo
         };
