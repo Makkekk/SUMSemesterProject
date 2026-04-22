@@ -1,0 +1,54 @@
+@inject IOrderService OrderService
+@rendermode InteractiveAuto
+@page "/AdminPage"
+@using DTO
+@using LajmiBlazorWebApp.Client.Services
+<h3>Velkommen Sofian Lajmi</h3>
+
+<div>
+    <h2 class="Overskrift">Ordreoversigt</h2>
+</div>
+
+@if (orders == null || !orders.Any())
+{
+    <p>Der er ingen ordre klar til at blive pakket og afsendt... tid til Dota</p>
+}
+else
+{
+    <div class="ordreContainer">
+        <table>
+            <thead>
+            <tr>
+                <th>Ordrenummer</th>
+                <th>Kundenavn</th>
+                <th>Bønner</th>
+                <th>Mængde (kg)</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var ordre in orders)
+            {
+                @foreach (var linje in ordre.Lines)
+                {
+                    <tr>
+                        <td>@ordre.orderId</td>
+                        <td>@ordre.CompanyName</td>
+                        <td>@linje.ProductName</td>
+                        <td>@linje.Quantity</td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+
+    List<OrderDto> orders;
+    // Blazor suntax for automatisk at køre denne metode ved opstart.
+    protected override async Task OnInitializedAsync()
+    {
+        orders = await OrderService.GetAllActiveProducts();
+    }
+}

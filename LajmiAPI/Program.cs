@@ -12,6 +12,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IDiscountAgreementRepository, DiscountAgreementRepository>();
+builder.Services.AddScoped<OrderRepository>();
+
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi(); 
@@ -32,21 +34,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowBlazorApp");
 
-// Optional: Only run connection test if specifically requested or not in EF tools
-if (!args.Contains("--no-test"))
+
+using (var scope = app.Services.CreateScope())
 {
-    using (var scope = app.Services.CreateScope())
+    try
     {
-        try
-        {
-            var context = scope.ServiceProvider.GetRequiredService<LajmiContext>();
-            var canConnect = context.Database.CanConnect();
-            Console.WriteLine(canConnect ? "Database connection successful!" : "Connection failed");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Connection error: {ex.Message}");
-        }
+        var context = scope.ServiceProvider.GetRequiredService<LajmiContext>();
+        DataInitializer.Initialize(context);
+        Console.WriteLine("Database initialized and seeded successfully.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred while seeding the database: {ex.Message}");
     }
 }
 

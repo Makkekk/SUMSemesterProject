@@ -6,9 +6,6 @@ namespace DataAcces.Context;
 
 public class LajmiContext : DbContext
 {
-    ModelBuilder modelBuilder;
-
-
     public DbSet<User> User { get; set; }
     public DbSet<Product> Product { get; set; }
     public DbSet<Order> Order { get; set; }
@@ -38,8 +35,7 @@ public class LajmiContext : DbContext
         modelBuilder.Entity<OrderLine>().HasOne<Product>().WithMany().HasForeignKey(ol => ol.ProductId);
 
         //Order -> Orderlabels (1:N)
-        //passer den her relation, det er vel kun hvis en ordre er shipped i flere kasser eller?
-        modelBuilder.Entity<Order>().HasMany(o => o.OrderLabels).WithOne().HasForeignKey(ol => ol.OrderId);
+        modelBuilder.Entity<Order>().HasMany(o => o.OrderLabels).WithOne(ol => ol.Order).HasForeignKey(ol => ol.OrderId);
 
         //Company -> DiscountAgreement (1:1)
         //modelBuilder.Entity<CustomerCompany>().HasOne(c => c.DiscountAgreement).WithOne(d => d.CustomerCompany).HasForeignKey<DiscountAgreement>(d => d.CompanyId);
