@@ -1,5 +1,6 @@
 using DataAcces.Context;
 using DataAcces.Repositories;
+using LajmiAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -13,6 +14,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IDiscountAgreementRepository, DiscountAgreementRepository>();
 builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<ShopifyService>();
 
 
 builder.Services.AddControllers();
