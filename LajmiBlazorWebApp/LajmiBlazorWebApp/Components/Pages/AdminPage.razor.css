@@ -1,9 +1,47 @@
+/* Layout til dashboardet */
+.admin-dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Skaber to lige store kolonner */
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.section-title {
+    margin-bottom: 15px;
+    text-align: center; /* Centrerer overskrifterne over boksene */
+}
+
+/* Højre sektion opsætning */
+.charts-section {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center; /* Centrerer cirkeldiagrammerne vertikalt */
+}
+
+.chart-container {
+    text-align: center;
+}
+
+/* Midlertidig pladsholder til grafer */
+.pie-placeholder {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+}
+
+/* Din eksisterende CSS til tabellen */
 .ordreContainer {
-    max-height: 400px;   
-    overflow-y: auto;    
-    overflow-x: hidden;  
-    border: 1px solid;
-    border-radius: 8px;
+    max-height: 550px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 2px solid black;
+    border-radius: 12px; /* Lidt blødere kanter baseret på tegningen */
 }
 
 .ordreContainer table {
@@ -24,4 +62,41 @@
 .ordreContainer tbody td {
     padding: 10px;
     border-bottom: 1px solid #eee;
+}
+/* Layout til knapperne under tabellen */
+
+    .button-group {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Ændret til 3 lige store kolonner */
+        gap: 10px;
+}
+
+.admin-btn {
+    padding: 10px;
+    background-color: #fff;
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.admin-btn:hover {
+    background-color: #f0f0f0;
+}
+
+/* Eksisterende layout-regler */
+.admin-dashboard {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr; /* Giver tabellen lidt mere plads */
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.ordreContainer {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 2px solid black;
+    border-radius: 8px;
 }

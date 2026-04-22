@@ -38,11 +38,21 @@ public class LajmiContext : DbContext
         modelBuilder.Entity<Order>().HasMany(o => o.OrderLabels).WithOne(ol => ol.Order).HasForeignKey(ol => ol.OrderId);
 
         //Company -> DiscountAgreement (1:1)
-        //modelBuilder.Entity<CustomerCompany>().HasOne(c => c.DiscountAgreement).WithOne(d => d.CustomerCompany).HasForeignKey<DiscountAgreement>(d => d.CompanyId);
+      //  modelBuilder.Entity<CustomerCompany>().HasOne(c => c.DiscountAgreement);
+        modelBuilder.Entity<CustomerCompany>()
+            .HasOne(c => c.DiscountAgreement)
+            .WithOne()
+            .HasForeignKey<DiscountAgreement>(d => d.CompanyId);
 
 
-        //map enumklassen OrderStatus til string istedet for 0-1-2-3, Enumen er gemt istedet for ints
-        modelBuilder.Entity<Order>().Property(o => o.OrderStatus).HasConversion<string>();
+        // Eksplicit konvertering begge veje: enum → string og string → enum... Dette har været et KÆMPE problem for jamal christensen ...
+        // Dette skulle gerne sikre at enum skrives i databasen som en STRING og når den hentes fra databasen bliver det til et ENUM
+        modelBuilder.Entity<Order>()
+            .Property(o => o.OrderStatus)
+            .HasConversion(
+                v => v.ToString(),
+                v => (OrderStatus)Enum.Parse(typeof(OrderStatus), v)
+            );
 
         base.OnModelCreating(modelBuilder);
     }

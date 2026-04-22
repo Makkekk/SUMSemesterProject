@@ -15,9 +15,8 @@ public class OrderMapper
             orderId = order.OrderId,
             OrderDate = order.OrderDate,
             status = order.OrderStatus.ToString(),
-            // Her antages det at company er inkluderet
             CompanyName = order.CustomerCompany?.CompanyName ?? "Ukendt",
-            Lines = order.OrderLines?.Select(ol => OrderMapper.ToDto(ol)).ToList() ?? new()
+            Lines = order.OrderLines?.Select(ol => ToDto(ol)).ToList() ?? new()
         };
     }
 

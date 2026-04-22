@@ -3,50 +3,79 @@
 @page "/AdminPage"
 @using DTO
 @using LajmiBlazorWebApp.Client.Services
-<h3>Velkommen Sofian Lajmi</h3>
 
-<div>
-    <h2 class="Overskrift">Ordreoversigt</h2>
+<h3>Velkommen Sofian</h3>
+
+<div class="admin-dashboard">
+    <div class="orders-section">
+        <h4 class="section-title">Liste af aktive odre</h4>
+
+        @if (orders == null || !orders.Any())
+        {
+            <p>Der er ingen ordre klar til at blive pakket og afsendt... tid til Dota</p>
+        }
+        else
+        {
+            <div class="ordreContainer">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ordrenummer</th>
+                            <th>Kundenavn</th>
+                            <th>Bønner</th>
+                            <th>Mængde (kg)</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ordre in orders)
+                        {
+                            @foreach (var linje in ordre.Lines)
+                            {
+                                <tr>
+                                    <td>@ordre.orderId</td>
+                                    <td>@ordre.CompanyName</td>
+                                    <td>@linje.ProductName</td>
+                                    <td>@linje.Quantity</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        <div class="button-group">
+            <button class="admin-btn">Opret Kunde</button>
+            <button class="admin-btn">Opret Vare</button>
+            <button class="admin-btn">Opret Ordre</button>
+            
+            <button class="admin-btn">Rediger Kunde</button>
+            <button class="admin-btn">Rediger Vare</button>
+            <button class="admin-btn">Rediger Ordre</button>
+            
+            <button class="admin-btn">Slet Kunde</button>
+            <button class="admin-btn">Slet Vare</button>
+            <button class="admin-btn">Slet Ordre</button>
+
+        </div>
+    </div>
+
+    <div class="charts-section">
+        <div class="chart-container">
+            <h4 class="section-title">Kaffebønne typer</h4>
+            <div class="pie-placeholder">Graf 1 (Kaffebønner)</div>
+        </div>
+        
+        <div class="chart-container">
+            <h4 class="section-title">Odrerstatus</h4>
+            <div class="pie-placeholder">Graf 2 (Status)</div>
+        </div>
+    </div>
 </div>
 
-@if (orders == null || !orders.Any())
-{
-    <p>Der er ingen ordre klar til at blive pakket og afsendt... tid til Dota</p>
-}
-else
-{
-    <div class="ordreContainer">
-        <table>
-            <thead>
-            <tr>
-                <th>Ordrenummer</th>
-                <th>Kundenavn</th>
-                <th>Bønner</th>
-                <th>Mængde (kg)</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var ordre in orders)
-            {
-                @foreach (var linje in ordre.Lines)
-                {
-                    <tr>
-                        <td>@ordre.orderId</td>
-                        <td>@ordre.CompanyName</td>
-                        <td>@linje.ProductName</td>
-                        <td>@linje.Quantity</td>
-                    </tr>
-                }
-            }
-            </tbody>
-        </table>
-    </div>
-}
-
 @code {
-
     List<OrderDto> orders;
-    // Blazor suntax for automatisk at køre denne metode ved opstart.
+
     protected override async Task OnInitializedAsync()
     {
         orders = await OrderService.GetAllActiveProducts();

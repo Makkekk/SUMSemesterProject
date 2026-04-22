@@ -24,7 +24,7 @@ public class OrdersController : ControllerBase
     {
         try
         {
-            var orders = await _orderRepository.GetAllActiveProducts();
+            var orders = await _orderRepository.GetAllActiveOrdersFromDb();
             return Ok(orders);
         }
         catch (Exception ex)
