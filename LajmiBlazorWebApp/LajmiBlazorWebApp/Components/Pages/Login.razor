@@ -1,4 +1,9 @@
-﻿@page "/login"
+﻿@rendermode InteractiveAuto
+@inject UserService userservice
+@inject UserSessionService session
+@inject NavigationManager nav
+@page "/login"
+@using LajmiBlazorWebApp.Client.Services
 <div class="container text-center">
     <div class="row">
         <div class="col-6">
@@ -28,11 +33,26 @@
     </div>
 </div>
 
+@if (fejlbesked != null)
+{
+    <p style="color:red">@fejlbesked</p>
+}
 @code {
+    string? fejlbesked;
     string username;
     string password;
-    private void Submit()
+    private async Task Submit()
     {
+        fejlbesked = null;
+       var user = await userservice.LoginAsync(username, password);
+
+       if (user == null)
+       {
+           fejlbesked = "Forkert brugernavn";
+           return;
+       }
+        session.Login(user);
+        nav.NavigateTo("/");
         
     }
 }

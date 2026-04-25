@@ -78,14 +78,14 @@ public class UserRepository : IUserRepository
     }
 
 // metode til log-in page
-    public async Task<UserDto?> LoginAsync(string email, string password)
+    public async Task<UserDto?> LoginAsync(string brugernavn, string password)
     {
         
-        //Hent bruger med samme mail fra DB
+        //Hent bruger med samme brugernavn fra DB
         var user = await _context.User
             .Include(u => u.CustomerCompany)
             .FirstOrDefaultAsync(u =>
-            u.UserEmail == email
+            u.UserName == brugernavn
         );
         //Fandt vi brugeren?
         if (user == null)

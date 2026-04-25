@@ -17,6 +17,8 @@ public class Program
         // delt service pr. bruger (1 kurv pr bruger)
         builder.Services.AddScoped<CartService>();
         
+        builder.Services.AddScoped<UserService>();
+        
         builder.Services.AddScoped<ProductService>();
         
         builder.Services.AddScoped<IOrderService, OrderService>();
