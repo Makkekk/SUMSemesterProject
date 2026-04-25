@@ -3,7 +3,7 @@ using Models;
 
 namespace LajmiBlazorWebApp.Client.Services;
 
-public class BasketService
+public class CartService
 {
     public List<Product> Items { get; private set; } = new();
 

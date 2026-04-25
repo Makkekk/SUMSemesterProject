@@ -10,7 +10,7 @@ class Program
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
         
         
-        builder.Services.AddScoped<BasketService>();
+        builder.Services.AddScoped<CartService>();
         builder.Services.AddScoped<ProductService>();
         builder.Services.AddScoped<IOrderService>();
         builder.Services.AddScoped<CalculateDiscountService>();
