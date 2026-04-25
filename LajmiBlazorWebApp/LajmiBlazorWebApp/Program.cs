@@ -30,6 +30,8 @@ public class Program
             {
                 BaseAddress = new Uri("http://localhost:5055")
             });
+        //Service for bruger log-in gemmes i session. vi bruger singelton fordi scoped vil oprette en ny session pr. http-request
+        builder.Services.AddSingleton<UserSessionService>();
 
         var app = builder.Build();
         

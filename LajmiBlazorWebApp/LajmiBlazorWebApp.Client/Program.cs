@@ -8,8 +8,8 @@ class Program
     static async Task Main(string[] args)
     {
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
-        
-        
+        // Service for at gemme bruger log-in i session
+        builder.Services.AddSingleton<UserSessionService>();   
         builder.Services.AddScoped<CartService>();
         builder.Services.AddScoped<ProductService>();
         builder.Services.AddScoped<IOrderService>();
