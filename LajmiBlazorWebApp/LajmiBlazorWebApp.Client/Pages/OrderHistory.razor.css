@@ -1,0 +1,60 @@
+.order-history-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.order-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #fff;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.order-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.order-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-done {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-active {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.status-in_progress {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-cancelled {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.order-total {
+    text-align: right;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+}
