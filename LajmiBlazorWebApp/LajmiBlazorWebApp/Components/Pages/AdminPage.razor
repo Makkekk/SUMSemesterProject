@@ -48,11 +48,11 @@ else
 }
 <div class="button-group">
 
-    <button class="admin-btn" @onclick="() => ToggleForm(\"opretKunde\")">Opret Kunde</button>
+    <button class="admin-btn" @onclick="@(() => ToggleForm("opretKunde"))">Opret Kunde</button>
 
     <button class="admin-btn">Opret Vare</button>
 
-    <button class="admin-btn" @onclick="() => ToggleForm(\"opretOrdre\")">Opret Ordre</button>
+    <button class="admin-btn" @onclick="@(() => ToggleForm("opretOrdre"))">Opret Ordre</button>
 
 
     <button class="admin-btn">Rediger Kunde</button>
