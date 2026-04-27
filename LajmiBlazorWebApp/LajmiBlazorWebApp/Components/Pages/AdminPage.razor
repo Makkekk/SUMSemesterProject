@@ -30,7 +30,7 @@ else
             <tbody>
             @foreach (var ordre in orders)
             {
-                @foreach (var linje in ordre.Lines)
+                @foreach (var linje in ordre.Lines ?? new())
                 {
                     <tr>
                         <td>@ordre.orderId</td>
