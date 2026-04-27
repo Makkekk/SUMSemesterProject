@@ -29,4 +29,18 @@ public class CompaniesController : ControllerBase
         if (company == null) return NotFound();
         return Ok(company);
     }
+
+    [HttpPost]
+    public async Task<ActionResult<CustomerCompanyDto>> CreateCompany(CreateCompanyRequest request)
+    {
+        try
+        {
+            var company = await _companyRepository.CreateAsync(request);
+            return CreatedAtAction(nameof(GetCompany), new { id = company.CompanyId }, company);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 }

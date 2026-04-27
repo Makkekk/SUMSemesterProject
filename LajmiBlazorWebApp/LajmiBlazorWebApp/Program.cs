@@ -26,6 +26,7 @@ public class Program
         builder.Services.AddScoped<CalculateDiscountService>();
 
         builder.Services.AddScoped<DiscountAgreementService>();
+        builder.Services.AddScoped<CompanyService>();
 
         builder.Services.AddScoped(sp =>
             new HttpClient

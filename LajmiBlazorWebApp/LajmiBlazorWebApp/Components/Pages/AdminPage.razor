@@ -1,4 +1,6 @@
 @inject IOrderService OrderService
+@inject CompanyService CompanyService
+@inject ProductService ProductService
 @rendermode InteractiveServer
 @page "/AdminPage"
 @using DTO
@@ -28,7 +30,7 @@ else
             <tbody>
             @foreach (var ordre in orders)
             {
-                @foreach (var linje in ordre.Lines)
+                @foreach (var linje in ordre.Lines ?? new())
                 {
                     <tr>
                         <td>@ordre.orderId</td>
@@ -46,11 +48,11 @@ else
 }
 <div class="button-group">
 
-    <button class="admin-btn">Opret Kunde</button>
+    <button class="admin-btn" @onclick="@(() => ToggleForm("opretKunde"))">Opret Kunde</button>
 
     <button class="admin-btn">Opret Vare</button>
 
-    <button class="admin-btn">Opret Ordre</button>
+    <button class="admin-btn" @onclick="@(() => ToggleForm("opretOrdre"))">Opret Ordre</button>
 
 
     <button class="admin-btn">Rediger Kunde</button>
@@ -66,16 +68,176 @@ else
 
     <button class="admin-btn">Slet Ordre</button>
 
-
-
 </div>
+
+@if (aktivForm == "opretOrdre")
+{
+    <div class="admin-form">
+        <h3>Opret ny ordre</h3>
+
+        <label>Firma</label>
+        <select @bind="nyOrdre.CompanyId">
+            <option value="@Guid.Empty">-- Vælg firma --</option>
+            @foreach (var firma in firmaer)
+            {
+                <option value="@firma.CompanyId">@firma.CompanyName</option>
+            }
+        </select>
+
+        <h4>Ordrelinjer</h4>
+        @foreach (var linje in nyOrdre.Lines)
+        {
+            <div class="order-line">
+                <select @bind="linje.ProduceId">
+                    <option value="@Guid.Empty">-- Vælg produkt --</option>
+                    @foreach (var produkt in produkter)
+                    {
+                        <option value="@produkt.ProductId">@produkt.Name</option>
+                    }
+                </select>
+                <input type="number" @bind="linje.Quantity" min="1" />
+                <button class="admin-btn admin-btn-cancel" @onclick="() => FjernLinje(linje)">Fjern</button>
+            </div>
+        }
+        <button class="admin-btn" @onclick="TilfoejLinje">+ Tilføj linje</button>
+
+        @if (formFejl != null)
+        {
+            <p class="form-error">@formFejl</p>
+        }
+        @if (formSucces != null)
+        {
+            <p class="form-success">@formSucces</p>
+        }
+
+        <div class="form-actions">
+            <button class="admin-btn" @onclick="GemOrdre">Gem</button>
+            <button class="admin-btn admin-btn-cancel" @onclick="() => ToggleForm(null)">Annuller</button>
+        </div>
+    </div>
+}
+
+@if (aktivForm == "opretKunde")
+{
+    <div class="admin-form">
+        <h3>Opret ny kunde</h3>
+
+        <label>Firmanavn</label>
+        <input @bind="nyKunde.CompanyName" placeholder="Firmanavn" />
+
+        <label>CVR</label>
+        <input @bind="nyKunde.Cvr" placeholder="CVR-nummer" />
+
+        <label>Adresse</label>
+        <input @bind="nyKunde.CompanyAddress" placeholder="Adresse" />
+
+        <label>Telefonnummer</label>
+        <input @bind="nyKunde.CompanyPhoneNumber" placeholder="+45 0000 0000" />
+
+        <label>Email</label>
+        <input @bind="nyKunde.CompanyEmail" placeholder="firma@email.dk" />
+
+        @if (formFejl != null)
+        {
+            <p class="form-error">@formFejl</p>
+        }
+        @if (formSucces != null)
+        {
+            <p class="form-success">@formSucces</p>
+        }
+
+        <div class="form-actions">
+            <button class="admin-btn" @onclick="GemKunde">Gem</button>
+            <button class="admin-btn admin-btn-cancel" @onclick="() => ToggleForm(null)">Annuller</button>
+        </div>
+    </div>
+}
 
 @code {
 
     List<OrderDto> orders;
-    // Blazor suntax for automatisk at køre denne metode ved opstart.
+    List<CustomerCompanyDto> firmaer = new();
+    List<ProductDto> produkter = new();
+    string aktivForm = null;
+    string formFejl = null;
+    string formSucces = null;
+    CreateCompanyRequest nyKunde = new();
+    CreateOrderRequest nyOrdre = new();
+
     protected override async Task OnInitializedAsync()
     {
         orders = await OrderService.GetAllActiveProducts();
+    }
+
+    void ToggleForm(string formNavn)
+    {
+        aktivForm = aktivForm == formNavn ? null : formNavn;
+        formFejl = null;
+        formSucces = null;
+        nyKunde = new();
+        nyOrdre = new();
+
+        if (aktivForm == "opretOrdre")
+            _ = IndlaesOrdreData();
+    }
+
+    async Task IndlaesOrdreData()
+    {
+        firmaer = await CompanyService.GetAllAsync();
+        produkter = await ProductService.GetProductsAsync();
+        StateHasChanged();
+    }
+
+    void TilfoejLinje() => nyOrdre.Lines.Add(new CreateOrderLineRequest());
+    void FjernLinje(CreateOrderLineRequest linje) => nyOrdre.Lines.Remove(linje);
+
+    async Task GemOrdre()
+    {
+        formFejl = null;
+        formSucces = null;
+
+        if (nyOrdre.CompanyId == Guid.Empty)
+        {
+            formFejl = "Vælg et firma.";
+            return;
+        }
+        if (!nyOrdre.Lines.Any())
+        {
+            formFejl = "Tilføj mindst én ordrelinje.";
+            return;
+        }
+
+        var resultat = await OrderService.CreateOrder(nyOrdre);
+        if (resultat == null)
+        {
+            formFejl = "Noget gik galt. Prøv igen.";
+            return;
+        }
+
+        formSucces = $"Ordre oprettet for {resultat.CompanyName}.";
+        nyOrdre = new();
+        orders = await OrderService.GetAllActiveProducts();
+    }
+
+    async Task GemKunde()
+    {
+        formFejl = null;
+        formSucces = null;
+
+        if (string.IsNullOrWhiteSpace(nyKunde.CompanyName) || string.IsNullOrWhiteSpace(nyKunde.Cvr))
+        {
+            formFejl = "Firmanavn og CVR er påkrævet.";
+            return;
+        }
+
+        var resultat = await CompanyService.CreateAsync(nyKunde);
+        if (resultat == null)
+        {
+            formFejl = "Noget gik galt. Prøv igen.";
+            return;
+        }
+
+        formSucces = $"{resultat.CompanyName} er oprettet.";
+        nyKunde = new();
     }
 }
