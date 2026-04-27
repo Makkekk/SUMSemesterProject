@@ -1,6 +1,7 @@
 @using LajmiBlazorWebApp.Client.Components.Layout
 @using LajmiBlazorWebApp.Client.Services
 @inject CartService CartService
+@inject UserSessionService UserSession
 @implements IDisposable
 
 
@@ -12,6 +13,10 @@
     <nav class="main-nav">
         <NavLink href="products">Shop</NavLink>
         <NavLink href="discounts">Erhverv</NavLink>
+        @if (UserSession.CurrentUser?.IsAdmin == true)
+        {
+            <NavLink href="admin">Dashboard</NavLink>
+        }
         <NavLink href="login">Log ind</NavLink>
     </nav>
 
@@ -34,14 +39,15 @@
     // Denne metode kører automatisk én gang når siden loades
     protected override void OnInitialized()
     {
-        // Vi tænder radioen og tilføjer (+) os til lyttelisten
         CartService.OnChange += StateHasChanged;
-    } 
-    
-    // Denne metode kører, hvis komponenten fjernes/lukkes ned
+        UserSession.OnChange += OnSessionChanged;
+    }
+
+    private void OnSessionChanged() => InvokeAsync(StateHasChanged);
+
     public void Dispose()
     {
-        // Vi fjerner (-) os fra lyttelisten igen
         CartService.OnChange -= StateHasChanged;
+        UserSession.OnChange -= OnSessionChanged;
     }
 }

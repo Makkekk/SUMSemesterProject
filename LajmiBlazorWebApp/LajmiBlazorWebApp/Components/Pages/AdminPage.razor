@@ -1,5 +1,5 @@
 @inject IOrderService OrderService
-@rendermode InteractiveAuto
+@rendermode InteractiveServer
 @page "/AdminPage"
 @using DTO
 @using LajmiBlazorWebApp.Client.Services
@@ -40,8 +40,35 @@ else
             }
             </tbody>
         </table>
+       
     </div>
+
 }
+<div class="button-group">
+
+    <button class="admin-btn">Opret Kunde</button>
+
+    <button class="admin-btn">Opret Vare</button>
+
+    <button class="admin-btn">Opret Ordre</button>
+
+
+    <button class="admin-btn">Rediger Kunde</button>
+
+    <button class="admin-btn">Rediger Vare</button>
+
+    <button class="admin-btn">Rediger Ordre</button>
+
+
+    <button class="admin-btn">Slet Kunde</button>
+
+    <button class="admin-btn">Slet Vare</button>
+
+    <button class="admin-btn">Slet Ordre</button>
+
+
+
+</div>
 
 @code {
 

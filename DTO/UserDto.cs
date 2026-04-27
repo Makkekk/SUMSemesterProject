@@ -9,4 +9,5 @@ public class UserDto
     public Guid CompanyId { get; set; }
     
     public string CompanyName { get; set; }
+    public bool IsAdmin { get; set; }
 }

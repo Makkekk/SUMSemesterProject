@@ -1,4 +1,4 @@
-@rendermode InteractiveAuto
+@rendermode InteractiveServer
 @inject UserService userservice
 @inject UserSessionService session
 @inject NavigationManager nav
@@ -36,14 +36,21 @@
     private async Task Submit()
     {
         fejlbesked = null;
-        var user = await userservice.LoginAsync(username, password);
-
-        if (user == null)
+        try
         {
-            fejlbesked = "Forkert brugernavn eller kodeord";
-            return;
+            var user = await userservice.LoginAsync(username, password);
+
+            if (user == null)
+            {
+                fejlbesked = "Forkert brugernavn eller kodeord";
+                return;
+            }
+            session.Login(user);
+            nav.NavigateTo("/");
         }
-        session.Login(user);
-        nav.NavigateTo("/");
+        catch (Exception ex)
+        {
+            fejlbesked = $"Serverfejl: {ex.Message}";
+        }
     }
 }
