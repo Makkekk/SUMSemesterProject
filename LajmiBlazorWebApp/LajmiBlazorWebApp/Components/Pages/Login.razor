@@ -4,6 +4,7 @@
 @inject NavigationManager nav
 @page "/login"
 @using LajmiBlazorWebApp.Client.Services
+@using Models
 
 <div class="login-wrapper">
     <div class="login-card">
@@ -45,8 +46,17 @@
                 fejlbesked = "Forkert brugernavn eller kodeord";
                 return;
             }
+
             session.Login(user);
-            nav.NavigateTo("/");
+
+            if (user.IsAdmin)
+            {
+                nav.NavigateTo("/AdminPage");
+            }
+            else
+            {
+                nav.NavigateTo("/");
+            }
         }
         catch (Exception ex)
         {
