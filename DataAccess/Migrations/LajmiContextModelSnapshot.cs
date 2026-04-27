@@ -48,12 +48,7 @@ namespace DataAcces.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("DiscountAgreementDiscountId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("CompanyId");
-
-                    b.HasIndex("DiscountAgreementDiscountId");
 
                     b.ToTable("CustomerCompany");
                 });
@@ -81,6 +76,9 @@ namespace DataAcces.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("DiscountId");
+
+                    b.HasIndex("CompanyId")
+                        .IsUnique();
 
                     b.ToTable("DiscountAgreement");
                 });
@@ -232,15 +230,13 @@ namespace DataAcces.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("Models.CustomerCompany", b =>
+            modelBuilder.Entity("Models.DiscountAgreement", b =>
                 {
-                    b.HasOne("Models.DiscountAgreement", "DiscountAgreement")
-                        .WithMany()
-                        .HasForeignKey("DiscountAgreementDiscountId")
+                    b.HasOne("Models.CustomerCompany", null)
+                        .WithOne("DiscountAgreement")
+                        .HasForeignKey("Models.DiscountAgreement", "CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("DiscountAgreement");
                 });
 
             modelBuilder.Entity("Models.Order", b =>
@@ -300,6 +296,8 @@ namespace DataAcces.Migrations
 
             modelBuilder.Entity("Models.CustomerCompany", b =>
                 {
+                    b.Navigation("DiscountAgreement");
+
                     b.Navigation("FavoriteProducts");
 
                     b.Navigation("Orders");

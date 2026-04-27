@@ -118,7 +118,7 @@ dotnet tool install --global dotnet-ef
 ### Opret en ny Migration (Database-ændring)
 Hver gang du ændrer i dine **Models** eller i **LajmiContext**, skal du oprette en ny migration:
 ```bash
-dotnet ef migrations add <Navn_På_Ændring> --project DataAccess --startup-project LajmiAPI
+dotnet ef migrations add "Navn_På_Ændring" --project DataAccess --startup-project LajmiAPI
 ```
 *Eksempel: `dotnet ef migrations add InitialCreate --project DataAccess --startup-project LajmiAPI`*
 

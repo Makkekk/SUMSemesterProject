@@ -19,6 +19,6 @@ public class CustomerCompany
     public List<User> Users { get; set; } = new();
 
     // Forbindelse til DiscountAgreement
-    public DiscountAgreement DiscountAgreement { get; set; } = new();
+    public DiscountAgreement? DiscountAgreement { get; set; }
 }
 
