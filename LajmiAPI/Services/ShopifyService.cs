@@ -1,4 +1,5 @@
-﻿using DTO;
+﻿using DataAcces.Repositories;
+using DTO;
 using ShopifySharp;
 
 
@@ -8,11 +9,13 @@ public class ShopifyService
 {
     private readonly string shopUrl;
     private readonly string accessToken;
+    private readonly IProductRepository _productRepository;
 
-    public ShopifyService(IConfiguration configuration)
+    public ShopifyService(IConfiguration configuration, IProductRepository productRepository)
     {
         shopUrl = configuration["Shopify:ShopUrl"] ?? "";
         accessToken = configuration["Shopify:AccessToken"] ?? "";
+        _productRepository = productRepository;
     }
 
     public async Task<List<ProductDto>> GetShopifyProductAsync()
@@ -30,5 +33,24 @@ public class ShopifyService
             Vat = 0.25m,
             ProductWeight = (double)(p.Variants.FirstOrDefault()?.Weight ?? 0)
         }).ToList();
+    }
+
+    public async Task<int> SyncProductsDatabase()
+    {
+        var shopifyProducts = await GetShopifyProductAsync();
+        
+        var existingProducts = await _productRepository.GetAllAsync();
+        int importCount = 0;
+
+        foreach (var shopifyProduct in shopifyProducts)
+        {
+            if (!existingProducts.Any(p => p.Name == shopifyProduct.Name))
+            {
+                await _productRepository.CreateProductAsync(shopifyProduct);
+                importCount++;
+            }
+        }
+        return importCount;
+        
     }
 }
