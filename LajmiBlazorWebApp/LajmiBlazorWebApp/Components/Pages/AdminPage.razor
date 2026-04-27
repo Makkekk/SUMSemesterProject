@@ -1,4 +1,5 @@
 @inject IOrderService OrderService
+@inject CompanyService CompanyService
 @rendermode InteractiveServer
 @page "/AdminPage"
 @using DTO
@@ -46,7 +47,7 @@ else
 }
 <div class="button-group">
 
-    <button class="admin-btn">Opret Kunde</button>
+    <button class="admin-btn" @onclick="() => ToggleForm(\"opretKunde\")">Opret Kunde</button>
 
     <button class="admin-btn">Opret Vare</button>
 
@@ -66,16 +67,84 @@ else
 
     <button class="admin-btn">Slet Ordre</button>
 
-
-
 </div>
+
+@if (aktivForm == "opretKunde")
+{
+    <div class="admin-form">
+        <h3>Opret ny kunde</h3>
+
+        <label>Firmanavn</label>
+        <input @bind="nyKunde.CompanyName" placeholder="Firmanavn" />
+
+        <label>CVR</label>
+        <input @bind="nyKunde.Cvr" placeholder="CVR-nummer" />
+
+        <label>Adresse</label>
+        <input @bind="nyKunde.CompanyAddress" placeholder="Adresse" />
+
+        <label>Telefonnummer</label>
+        <input @bind="nyKunde.CompanyPhoneNumber" placeholder="+45 0000 0000" />
+
+        <label>Email</label>
+        <input @bind="nyKunde.CompanyEmail" placeholder="firma@email.dk" />
+
+        @if (formFejl != null)
+        {
+            <p class="form-error">@formFejl</p>
+        }
+        @if (formSucces != null)
+        {
+            <p class="form-success">@formSucces</p>
+        }
+
+        <div class="form-actions">
+            <button class="admin-btn" @onclick="GemKunde">Gem</button>
+            <button class="admin-btn admin-btn-cancel" @onclick="() => ToggleForm(null)">Annuller</button>
+        </div>
+    </div>
+}
 
 @code {
 
     List<OrderDto> orders;
-    // Blazor suntax for automatisk at køre denne metode ved opstart.
+    string aktivForm = null;
+    string formFejl = null;
+    string formSucces = null;
+    CreateCompanyRequest nyKunde = new();
+
     protected override async Task OnInitializedAsync()
     {
         orders = await OrderService.GetAllActiveProducts();
+    }
+
+    void ToggleForm(string formNavn)
+    {
+        aktivForm = aktivForm == formNavn ? null : formNavn;
+        formFejl = null;
+        formSucces = null;
+        nyKunde = new();
+    }
+
+    async Task GemKunde()
+    {
+        formFejl = null;
+        formSucces = null;
+
+        if (string.IsNullOrWhiteSpace(nyKunde.CompanyName) || string.IsNullOrWhiteSpace(nyKunde.Cvr))
+        {
+            formFejl = "Firmanavn og CVR er påkrævet.";
+            return;
+        }
+
+        var resultat = await CompanyService.CreateAsync(nyKunde);
+        if (resultat == null)
+        {
+            formFejl = "Noget gik galt. Prøv igen.";
+            return;
+        }
+
+        formSucces = $"{resultat.CompanyName} er oprettet.";
+        nyKunde = new();
     }
 }
