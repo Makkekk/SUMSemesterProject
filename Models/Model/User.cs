@@ -14,6 +14,8 @@ public class User
     public string? UserPhoneNumber { get; set; }
     
     public string PasswordHash { get; set; } 
+    
+    public bool IsAdmin { get; set; }
 
     // Relation til CustomerCompany
     public Guid CompanyId { get; set; }

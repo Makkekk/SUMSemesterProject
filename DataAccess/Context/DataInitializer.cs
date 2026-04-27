@@ -7,11 +7,43 @@ public static class DataInitializer
 {
     public static void Initialize(LajmiContext context)
     {
-        try 
+        try
         {
             Console.WriteLine("Applying migrations...");
-            
+
             context.Database.Migrate();
+
+            var adminUser = context.User.FirstOrDefault(u => u.UserName == "admin");
+            if (adminUser == null)
+            {
+                Console.WriteLine("Seeding admin user...");
+                var adminCompanyId = Guid.NewGuid();
+                context.CustomerCompany.Add(new CustomerCompany
+                {
+                    CompanyId = adminCompanyId,
+                    CompanyName = "Lajmi Admin",
+                    Cvr = "00000000",
+                    CompanyAddress = "Adminvej 1",
+                    CompanyPhoneNumber = "+45 0000 0000",
+                    CompanyEmail = "admin@lajmi.dk"
+                });
+                context.User.Add(new User
+                {
+                    UserId = Guid.NewGuid(),
+                    UserName = "admin",
+                    UserEmail = "admin@lajmi.dk",
+                    UserPhoneNumber = "+45 0000 0000",
+                    PasswordHash = "admin",
+                    IsAdmin = true,
+                    CompanyId = adminCompanyId
+                });
+                context.SaveChanges();
+            }
+            else if (!adminUser.IsAdmin)
+            {
+                adminUser.IsAdmin = true;
+                context.SaveChanges();
+            }
 
             if (context.Product.Any())
             {
@@ -20,7 +52,7 @@ public static class DataInitializer
 
             Console.WriteLine("Seeding dummy data...");
             SeedData(context);
-            
+
             context.SaveChanges();
             Console.WriteLine("Database migration and seeding completed successfully.");
         }
