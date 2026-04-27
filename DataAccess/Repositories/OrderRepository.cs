@@ -8,12 +8,13 @@ namespace DataAcces.Repositories;
 
 public interface IOrderRepository
 {
-    Task<IEnumerable<OrderDto>> GetAllActiveProducts();
-
+    Task<IEnumerable<OrderDto>> GetAllActiveOrdersAsync();
+    Task<IEnumerable<OrderDto>> GetOrdersByCompanyIdAsync(Guid companyId);
     Task<OrderDto> CreateOrder(CreateOrderRequest order);
+    Task<OrderDto> CreateOrderAsync(OrderDto orderDto);
 }
 
-public class OrderRepository :  IOrderRepository
+public class OrderRepository : IOrderRepository
 {
     private readonly LajmiContext _context;
     
@@ -22,7 +23,7 @@ public class OrderRepository :  IOrderRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<OrderDto>> GetAllActiveProducts()
+    public async Task<IEnumerable<OrderDto>> GetAllActiveOrdersAsync()
     {
         var orders = await _context.Order
             .Include(o => o.CustomerCompany)
@@ -32,16 +33,24 @@ public class OrderRepository :  IOrderRepository
 
         return orders.Select(o => OrderMapper.MapToDto(o));
     }
-    
-    
-    // Opret Ordre methode.... fuck den her metode. Jeg tror aldrig jeg har haft så svært ved at sætte et objekt sammen som dette... 
-    // seriøst det her design sutter max røv
+
+    public async Task<IEnumerable<OrderDto>> GetOrdersByCompanyIdAsync(Guid companyId)
+    {
+        var orders = await _context.Order
+            .Include(o => o.CustomerCompany)
+            .Include(o => o.OrderLines)
+            .Where(o => o.CompanyId == companyId)
+            .OrderByDescending(o => o.OrderDate)
+            .ToListAsync();
+
+        return orders.Select(o => OrderMapper.MapToDto(o));
+    }
 
     public async Task<OrderDto> CreateOrder(CreateOrderRequest request)
     {
         var newOrder = new Order
         {
-            OrderId =  Guid.NewGuid(),
+            OrderId = Guid.NewGuid(),
             CompanyId = request.CompanyId,
             OrderLines = request.Lines.Select(l =>
                 {
@@ -58,14 +67,28 @@ public class OrderRepository :  IOrderRepository
         };
         
         _context.Order.Add(newOrder);
-        
         await _context.SaveChangesAsync();
-        // Og jeg kan af en eller anden virkelig skod grund ikke kalde MapToDto før at jeg har hentet objektet fra DB IGEN! 
+
         var gemt = await _context.Order
             .Include(o => o.CustomerCompany)
             .Include(o => o.OrderLines)
             .FirstAsync(o => o.OrderId == newOrder.OrderId);
 
         return OrderMapper.MapToDto(gemt);
+    }
+
+    public async Task<OrderDto> CreateOrderAsync(OrderDto orderDto)
+    {
+        var order = OrderMapper.MapToEntity(orderDto);
+
+        await _context.Order.AddAsync(order);
+        await _context.SaveChangesAsync();
+
+        var saved = await _context.Order
+            .Include(o => o.CustomerCompany)
+            .Include(o => o.OrderLines)
+            .FirstAsync(o => o.OrderId == order.OrderId);
+
+        return OrderMapper.MapToDto(saved);
     }
 }
