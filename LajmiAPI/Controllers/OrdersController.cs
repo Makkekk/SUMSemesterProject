@@ -32,4 +32,18 @@ public class OrdersController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+
+    [HttpPost]
+    public async Task<ActionResult<OrderDto>> CreateOrder(CreateOrderRequest request)
+    {
+        try
+        {
+            var order = await _orderRepository.CreateOrder(request);
+            return Ok(order);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 }
