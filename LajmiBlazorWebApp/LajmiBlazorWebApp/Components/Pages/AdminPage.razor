@@ -88,7 +88,7 @@ else
         @foreach (var linje in nyOrdre.Lines)
         {
             <div class="order-line">
-                <select @bind="linje.ProduceId">
+                <select @bind="linje.ProductId">
                     <option value="@Guid.Empty">-- Vælg produkt --</option>
                     @foreach (var produkt in produkter)
                     {

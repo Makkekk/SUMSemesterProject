@@ -54,11 +54,11 @@ public class OrderRepository : IOrderRepository
             CompanyId = request.CompanyId,
             OrderLines = request.Lines.Select(l =>
                 {
-                    var product = _context.Product.Find(l.ProduceId);
+                    var product = _context.Product.Find(l.ProductId);
                     return new OrderLine
                     {
                         OrderLineId = Guid.NewGuid(),
-                        ProductId = l.ProduceId,
+                        ProductId = l.ProductId,
                         ProductName = product?.ProductName ?? "Ukendt",
                         OrderQuantity = l.Quantity,
                         UnitPrice = product?.ProductPrice ?? 0
