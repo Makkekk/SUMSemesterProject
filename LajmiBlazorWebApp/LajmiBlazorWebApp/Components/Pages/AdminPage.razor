@@ -166,7 +166,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        orders = await OrderService.GetAllActiveProducts();
+        orders = await OrderService.GetAllActiveOrdersAsync();
     }
 
     void ToggleForm(string formNavn)
@@ -216,7 +216,7 @@ else
 
         formSucces = $"Ordre oprettet for {resultat.CompanyName}.";
         nyOrdre = new();
-        orders = await OrderService.GetAllActiveProducts();
+        orders = await OrderService.GetAllActiveOrdersAsync();
     }
 
     async Task GemKunde()
