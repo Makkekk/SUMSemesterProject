@@ -2,6 +2,7 @@ using DataAcces.Context;
 using DataAcces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using BusinessLogic.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IDiscountAgreementRepository, DiscountAgreementRepository>();
 builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<BackendOrderService>();
+builder.Services.AddScoped<ShipmondoService>();
 
 
 builder.Services.AddControllers();

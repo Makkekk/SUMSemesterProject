@@ -3,6 +3,7 @@ using System;
 using DataAcces.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAcces.Migrations
 {
     [DbContext(typeof(LajmiContext))]
-    partial class LajmiContextModelSnapshot : ModelSnapshot
+    [Migration("20260422154728_SyncModel")]
+    partial class SyncModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +51,12 @@ namespace DataAcces.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("DiscountAgreementDiscountId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("CompanyId");
+
+                    b.HasIndex("DiscountAgreementDiscountId");
 
                     b.ToTable("CustomerCompany");
                 });
@@ -76,9 +84,6 @@ namespace DataAcces.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("DiscountId");
-
-                    b.HasIndex("CompanyId")
-                        .IsUnique();
 
                     b.ToTable("DiscountAgreement");
                 });
@@ -230,15 +235,15 @@ namespace DataAcces.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("Models.DiscountAgreement", b =>
+            modelBuilder.Entity("Models.CustomerCompany", b =>
                 {
-                    b.HasOne("Models.CustomerCompany", "CustomerCompany")
-                        .WithOne("DiscountAgreement")
-                        .HasForeignKey("Models.DiscountAgreement", "CompanyId")
+                    b.HasOne("Models.DiscountAgreement", "DiscountAgreement")
+                        .WithMany()
+                        .HasForeignKey("DiscountAgreementDiscountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CustomerCompany");
+                    b.Navigation("DiscountAgreement");
                 });
 
             modelBuilder.Entity("Models.Order", b =>
@@ -298,8 +303,6 @@ namespace DataAcces.Migrations
 
             modelBuilder.Entity("Models.CustomerCompany", b =>
                 {
-                    b.Navigation("DiscountAgreement");
-
                     b.Navigation("FavoriteProducts");
 
                     b.Navigation("Orders");
