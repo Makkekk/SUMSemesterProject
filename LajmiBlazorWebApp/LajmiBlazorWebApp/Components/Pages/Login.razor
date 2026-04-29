@@ -21,6 +21,10 @@
         </div>
 
         <button class="login-btn" @onclick="Submit">Log ind</button>
+        
+        <p>
+            <a href="@(nav.GetUriWithQueryParameters("Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</a>
+        </p>
 
         @if (fejlbesked != null)
         {
@@ -33,6 +37,7 @@
     string? fejlbesked;
     string username;
     string password;
+    [SupplyParameterFromQuery] private string? ReturnUrl { get; set; }
 
     private async Task Submit()
     {
