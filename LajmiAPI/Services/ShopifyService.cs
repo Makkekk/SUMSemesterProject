@@ -39,7 +39,7 @@ public class ShopifyService
     {
         var shopifyProducts = await GetShopifyProductAsync();
         
-        var existingProducts = await _productRepository.GetAllAsync();
+        var existingProducts = await _productRepository.GetAllProductsAsync();
         int importCount = 0;
 
         foreach (var shopifyProduct in shopifyProducts)
