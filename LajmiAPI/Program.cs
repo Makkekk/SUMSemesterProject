@@ -1,5 +1,6 @@
 using DataAcces.Context;
 using DataAcces.Repositories;
+using LajmiAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using BusinessLogic.Services;
@@ -10,12 +11,15 @@ builder.Services.AddDbContext<LajmiContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IDiscountAgreementRepository, DiscountAgreementRepository>();
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<BackendOrderService>();
 builder.Services.AddScoped<ShipmondoService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<ShopifyService>();
 
 
 builder.Services.AddControllers();

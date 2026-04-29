@@ -10,9 +10,11 @@ namespace LajmiAPI.Controllers;
 [Route("api/[controller]")]
 public class UserController : ControllerBase
 {
-    private readonly IUserRepository _userRepository;
+    // record for login
+    public record LoginRequest(string Email, string Password);
+    private readonly UserRepository _userRepository;
 
-    public UserController(IUserRepository userRepository)
+    public UserController(UserRepository userRepository)
     {
         _userRepository = userRepository;
     }
@@ -61,5 +63,21 @@ public class UserController : ControllerBase
         if (!success) return NotFound();
         
         return NoContent();
+    }
+// Når post bliver sendt fra login page, fanges den her og sendes videre til UserRepository hvori logikken findes.
+    [HttpPost("login")]
+    public async Task<ActionResult<UserDto>> Login(LoginRequest loginRequest)
+    {
+        var user = await _userRepository.LoginAsync(loginRequest.Email, loginRequest.Password);
+
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+        else
+        {
+            return Ok(user);    
+        }
+        
     }
 }

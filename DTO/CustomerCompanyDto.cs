@@ -6,6 +6,6 @@ public class CustomerCompanyDto
     public string CompanyName { get; set; }
     public string Cvr { get; set; }
     public string Adress  { get; set; }
-    
+
     public decimal? CurrentDiscountPercentage { get; set; }
 }

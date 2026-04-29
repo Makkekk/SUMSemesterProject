@@ -8,12 +8,14 @@ class Program
     static async Task Main(string[] args)
     {
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
-        
-        
-        builder.Services.AddScoped<BasketService>();
+        // Service for at gemme bruger log-in i session
+        builder.Services.AddSingleton<UserSessionService>();
+        builder.Services.AddScoped<UserService>();
+        builder.Services.AddScoped<CartService>();
         builder.Services.AddScoped<ProductService>();
-        builder.Services.AddScoped<IOrderService>();
+        builder.Services.AddScoped<IOrderService, OrderService>();
         builder.Services.AddScoped<CalculateDiscountService>();
+        builder.Services.AddScoped<CompanyService>();
         builder.Services.AddScoped(sp =>
             new HttpClient
             {

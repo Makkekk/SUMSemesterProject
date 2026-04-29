@@ -29,7 +29,7 @@ public class UserRepository : IUserRepository
         var users = await _context.User
             .Include(u => u.CustomerCompany)
             .ToListAsync();
-            
+
         return users.Select(u => u.ToDto());
     }
 
@@ -38,17 +38,17 @@ public class UserRepository : IUserRepository
         var user = await _context.User
             .Include(u => u.CustomerCompany)
             .FirstOrDefaultAsync(u => u.UserId == id);
-            
+
         return user?.ToDto();
     }
 
     public async Task<UserDto> CreateAsync(User user)
     {
         if (user.UserId == Guid.Empty) user.UserId = Guid.NewGuid();
-        
+
         _context.User.Add(user);
         await _context.SaveChangesAsync();
-        
+
         // Reload for at få Company med
         return await GetByIdAsync(user.UserId);
     }
@@ -75,5 +75,29 @@ public class UserRepository : IUserRepository
         _context.User.Remove(user);
         await _context.SaveChangesAsync();
         return true;
+    }
+
+// metode til log-in page
+    public async Task<UserDto?> LoginAsync(string brugernavn, string password)
+    {
+        
+        //Hent bruger med samme brugernavn fra DB
+        var user = await _context.User
+            .Include(u => u.CustomerCompany)
+            .FirstOrDefaultAsync(u =>
+            u.UserName == brugernavn
+        );
+        //Fandt vi brugeren?
+        if (user == null)
+        {
+            return null;
+        }
+        //Password check
+        if (user.PasswordHash != password)
+            {
+                return null;
+            }
+        return user.ToDto();
+        
     }
 }

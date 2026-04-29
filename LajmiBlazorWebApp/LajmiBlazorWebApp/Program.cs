@@ -15,7 +15,9 @@ public class Program
             .AddInteractiveWebAssemblyComponents();
         
         // delt service pr. bruger (1 kurv pr bruger)
-        builder.Services.AddScoped<BasketService>();
+        builder.Services.AddScoped<CartService>();
+        
+        builder.Services.AddScoped<UserService>();
         
         builder.Services.AddScoped<ProductService>();
         
@@ -24,12 +26,15 @@ public class Program
         builder.Services.AddScoped<CalculateDiscountService>();
 
         builder.Services.AddScoped<DiscountAgreementService>();
+        builder.Services.AddScoped<CompanyService>();
 
         builder.Services.AddScoped(sp =>
             new HttpClient
             {
                 BaseAddress = new Uri("http://localhost:5055")
             });
+        //Service for bruger log-in gemmes i session. vi bruger singelton fordi scoped vil oprette en ny session pr. http-request
+        builder.Services.AddSingleton<UserSessionService>();
 
         var app = builder.Build();
         

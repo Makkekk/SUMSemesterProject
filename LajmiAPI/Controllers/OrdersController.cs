@@ -1,4 +1,3 @@
-﻿using DataAcces.Context;
 using DataAcces.Repositories;
 using DTO;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +16,9 @@ public class OrdersController : ControllerBase
     private readonly BackendOrderService _backendOrderService;
 
     public OrdersController(OrderRepository orderRepository, BackendOrderService backendOrderService)
+    private readonly IOrderRepository _orderRepository;
+
+    public OrdersController(IOrderRepository orderRepository)
     {
         _orderRepository = orderRepository;
         _backendOrderService = backendOrderService;
@@ -27,7 +29,7 @@ public class OrdersController : ControllerBase
     {
         try
         {
-            var orders = await _orderRepository.GetAllActiveProducts();
+            var orders = await _orderRepository.GetAllActiveOrdersAsync();
             return Ok(orders);
         }
         catch (Exception ex)
@@ -43,4 +45,33 @@ public class OrdersController : ControllerBase
         return Ok();
     }
     
+}
+
+    [HttpGet("company/{companyId}")]
+    public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersByCompany(Guid companyId)
+    {
+        try
+        {
+            var orders = await _orderRepository.GetOrdersByCompanyIdAsync(companyId);
+            return Ok(orders);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<OrderDto>> CreateOrder(CreateOrderRequest request)
+    {
+        try
+        {
+            var order = await _orderRepository.CreateOrder(request);
+            return Ok(order);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 }

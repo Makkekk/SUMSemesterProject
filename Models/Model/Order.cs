@@ -7,6 +7,8 @@ public class Order
 
     [Key]
     public Guid OrderId { get; set; }
+    
+    // Burde dette ikke være et CompanyName ?
     public Guid CompanyId { get; set; }
     public DateTime OrderDate { get; set; }
     public OrderStatus OrderStatus { get; set; }

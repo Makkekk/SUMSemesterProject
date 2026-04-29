@@ -2,11 +2,11 @@
 @page "/cart"
 @using LajmiBlazorWebApp.Client.Services
 @using Models
-@inject BasketService basketService
+@inject CartService CartService
 
 <h1>Din Indkøbskurv</h1>
 
-@if (basketService.Items.Count == 0)
+@if (CartService.Items.Count == 0)
 {
     <p>Din kurv er tom. Gå til produkter for at handle.</p>
 }
@@ -23,7 +23,7 @@ else
             </tr>
             </thead>
             <tbody>
-            @foreach (var item in basketService.Items)
+            @foreach (var item in CartService.Items)
             {
                 <tr>
                     <td>
@@ -40,7 +40,7 @@ else
                               </span>
                               <br />
                               <strong>
-                                  @basketService.GetDiscountedPrice(item, discount).ToString("N2") kr.
+                                  @CartService.GetDiscountedPrice(item, discount).ToString("N2") kr.
                               </strong>
                           }
                           else
@@ -55,7 +55,7 @@ else
         </table>
 
         <div class="cart-summary">
-            <h3>Samlet beløb: @basketService.GetTotalPrice(discount).ToString("N2") kr.</h3>
+            <h3>Samlet beløb: @CartService.GetTotalPrice(discount).ToString("N2") kr.</h3>
             <button class="btn-checkout">Gå til betaling</button>
         </div>
     </div>

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAcces.Migrations
 {
     [DbContext(typeof(LajmiContext))]
-    [Migration("20260420185621_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260427121228_AdminPaaUser")]
+    partial class AdminPaaUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -210,6 +210,13 @@ namespace DataAcces.Migrations
                     b.Property<Guid>("CompanyId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("UserEmail")
                         .IsRequired()
                         .HasColumnType("text");
@@ -231,13 +238,11 @@ namespace DataAcces.Migrations
 
             modelBuilder.Entity("Models.DiscountAgreement", b =>
                 {
-                    b.HasOne("Models.CustomerCompany", "CustomerCompany")
+                    b.HasOne("Models.CustomerCompany", null)
                         .WithOne("DiscountAgreement")
                         .HasForeignKey("Models.DiscountAgreement", "CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("CustomerCompany");
                 });
 
             modelBuilder.Entity("Models.Order", b =>
@@ -297,8 +302,7 @@ namespace DataAcces.Migrations
 
             modelBuilder.Entity("Models.CustomerCompany", b =>
                 {
-                    b.Navigation("DiscountAgreement")
-                        .IsRequired();
+                    b.Navigation("DiscountAgreement");
 
                     b.Navigation("FavoriteProducts");
 

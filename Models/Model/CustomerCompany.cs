@@ -21,3 +21,6 @@ public class CustomerCompany
     // Vi fjerner "= new()" fordi EF selv styrer relationer – ellers tror EF altid der findes en relation
     public DiscountAgreement? DiscountAgreement { get; set; }
 }
+    public DiscountAgreement? DiscountAgreement { get; set; }
+}
+
