@@ -32,7 +32,7 @@ public static class UserMapper
             UserName = userDto.UserName,
             UserEmail = userDto.UserEmail,
             UserPhoneNumber = userDto.UserPhoneNumber,
-            CompanyId = userDto.CompanyId
+            CompanyId = userDto.CompanyId,
         };
     }
 }

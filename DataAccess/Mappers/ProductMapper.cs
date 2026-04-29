@@ -13,9 +13,9 @@ public static class ProductMapper
         return new ProductDto
         {
             ProductId = product.ProductId,
-            Name = product.ProductName,
+            ProductName = product.ProductName,
             Description = product.ProductDescription,
-            Price = product.ProductPrice,
+            ProductPrice = product.ProductPrice,
             ImageUrl = product.ImageUrl,
             Vat = product.Vat,
             ProductWeight = product.ProductWeight
@@ -30,9 +30,9 @@ public static class ProductMapper
         return new Product
         {
             ProductId = productDto.ProductId == Guid.Empty ? Guid.NewGuid() : productDto.ProductId,
-            ProductName = productDto.Name,
+            ProductName = productDto.ProductName,
             ProductDescription = productDto.Description,
-            ProductPrice = productDto.Price,
+            ProductPrice = productDto.ProductPrice,
             ImageUrl = productDto.ImageUrl,
             Vat = productDto.Vat,
             ProductWeight = productDto.ProductWeight
