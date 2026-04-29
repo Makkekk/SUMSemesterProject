@@ -11,7 +11,7 @@ public class OrderLine
 
     // Forbindelse til Product (Se det som snapshottet af produkt prisen,
     // således at orderlinjen beholder sin pris, selv hvis produkt prisen blev ændret
-    public Guid ProductId { get; set; }
+    public Guid? ProductId { get; set; }
     public string ProductName { get; set; }
 
     // Composition til Order

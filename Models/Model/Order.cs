@@ -21,4 +21,7 @@ public class Order
 
     // Forbindelse til OrderLabels
     public List<OrderLabel> OrderLabels { get; set; } = new();
+    
+    // Shopify track
+    public string ShopifyOrderId { get; set; } = string.Empty;
 }

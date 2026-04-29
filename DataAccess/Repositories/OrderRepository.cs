@@ -12,6 +12,7 @@ public interface IOrderRepository
     Task<IEnumerable<OrderDto>> GetOrdersByCompanyIdAsync(Guid companyId);
     Task<OrderDto> CreateOrder(CreateOrderRequest order);
     Task<OrderDto> CreateOrderAsync(OrderDto orderDto);
+    Task<Order?> GetByShopifyId(string shopifyId);
 }
 
 public class OrderRepository : IOrderRepository
@@ -111,6 +112,18 @@ public class OrderRepository : IOrderRepository
 
         return OrderMapper.MapToDto(saved);
     }
+    
+    public async Task Add(Order order)
+    {
+        await _context.Order.AddAsync(order);
+    }
+    
+    public async Task<Order?> GetByShopifyId(string shopifyId)
+    {
+        return await _context.Order
+            .FirstOrDefaultAsync(o => o.ShopifyOrderId == shopifyId);
+    }
+    
 }
 
 

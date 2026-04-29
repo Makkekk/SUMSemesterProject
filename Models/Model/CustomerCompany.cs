@@ -5,11 +5,11 @@ namespace Models;
 public class CustomerCompany
 {
     [Key] public Guid CompanyId { get; set; }
-    public string CompanyName { get; set; }
-    [Required] public string Cvr { get; set; }
-    public string CompanyAddress { get; set; }
-    public string CompanyPhoneNumber { get; set; }
-    public string CompanyEmail { get; set; }
+    public string CompanyName { get; set; } = String.Empty;
+    public string? Cvr { get; set; }
+    public string? CompanyAddress { get; set; }
+    public string? CompanyPhoneNumber { get; set; }
+    public string CompanyEmail { get; set; } = string.Empty;
 
     public List<Product> FavoriteProducts { get; set; } = new();
     public List<Order> Orders { get; set; } = new();

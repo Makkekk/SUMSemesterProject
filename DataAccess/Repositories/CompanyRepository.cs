@@ -55,4 +55,16 @@ public class CompanyRepository : ICompanyRepository
 
         return company.ToDto();
     }
+    
+    public async Task<CustomerCompany?> GetCompanyByEmail(string email)
+    {
+        return await _context.CustomerCompany
+            .FirstOrDefaultAsync(c => c.CompanyEmail == email);
+    }
+    
+    public async Task AddCompany(CustomerCompany company)
+    {
+        await _context.CustomerCompany.AddAsync(company);
+    }
+    
 }
