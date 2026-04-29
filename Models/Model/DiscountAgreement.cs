@@ -21,4 +21,3 @@ public class DiscountAgreement
     public CustomerCompany CustomerCompany { get; set; } = null!;
     
 }
-}

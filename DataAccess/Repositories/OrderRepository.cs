@@ -48,12 +48,12 @@ public class OrderRepository : IOrderRepository
     {
         await _context.SaveChangesAsync();
     }
-    
+
     public async Task AddOrderLabel(OrderLabel label)
     {
         await _context.Set<OrderLabel>().AddAsync(label);
     }
-}
+
     public async Task<IEnumerable<OrderDto>> GetOrdersByCompanyIdAsync(Guid companyId)
     {
         var orders = await _context.Order
@@ -73,19 +73,19 @@ public class OrderRepository : IOrderRepository
             OrderId = Guid.NewGuid(),
             CompanyId = request.CompanyId,
             OrderLines = request.Lines.Select(l =>
+            {
+                var product = _context.Product.Find(l.ProductId);
+                return new OrderLine
                 {
-                    var product = _context.Product.Find(l.ProductId);
-                    return new OrderLine
-                    {
-                        OrderLineId = Guid.NewGuid(),
-                        ProductId = l.ProductId,
-                        ProductName = product?.ProductName ?? "Ukendt",
-                        OrderQuantity = l.Quantity,
-                        UnitPrice = product?.ProductPrice ?? 0
-                    };
-                }).ToList()
+                    OrderLineId = Guid.NewGuid(),
+                    ProductId = l.ProductId,
+                    ProductName = product?.ProductName ?? "Ukendt",
+                    OrderQuantity = l.Quantity,
+                    UnitPrice = product?.ProductPrice ?? 0
+                };
+            }).ToList()
         };
-        
+
         _context.Order.Add(newOrder);
         await _context.SaveChangesAsync();
 
@@ -112,3 +112,5 @@ public class OrderRepository : IOrderRepository
         return OrderMapper.MapToDto(saved);
     }
 }
+
+

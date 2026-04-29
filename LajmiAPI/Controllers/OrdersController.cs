@@ -1,4 +1,4 @@
-using DataAcces.Repositories;
+﻿using DataAcces.Repositories;
 using DTO;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -11,14 +11,10 @@ namespace LajmiAPI.Controllers;
 public class OrdersController : ControllerBase
 {
     //opret ny ordre, og find ordrehistorik
-    private readonly LajmiContext _context; // < -- Burde den være her ? Jeg går udfra at vi bruger Repository metoderne og ikke rækker direkte ned i DB ?
-    private readonly OrderRepository _orderRepository;
     private readonly BackendOrderService _backendOrderService;
-
-    public OrdersController(OrderRepository orderRepository, BackendOrderService backendOrderService)
     private readonly IOrderRepository _orderRepository;
 
-    public OrdersController(IOrderRepository orderRepository)
+    public OrdersController(IOrderRepository orderRepository, BackendOrderService backendOrderService)
     {
         _orderRepository = orderRepository;
         _backendOrderService = backendOrderService;
@@ -45,8 +41,6 @@ public class OrdersController : ControllerBase
         return Ok();
     }
     
-}
-
     [HttpGet("company/{companyId}")]
     public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersByCompany(Guid companyId)
     {
