@@ -14,7 +14,7 @@ public class LajmiContext : DbContext
     //public DbSet<OrderLine> OrderLine { get; set; } måske ikke nødvendig, da den bliver oprettet via ordren
     //public DbSet<OrderLabel> orderLabel { get; set; } Forstiller mig det er det samme som ovenstående
     //public DbSet<DiscountAgreement> DiscountAgreement { get; set;} måske man skal lave en query for alle virksomheder
-    //public DbSet<FavoriteProduct> FavoriteProduct { get; set; } er det bare en query på en mange til mange relation
+    //public DbSet<FavoriteProduct> FavoriteProduct { get; set; } er det bare en query på en mange til mange relationer
 
     public LajmiContext(DbContextOptions<LajmiContext> options) : base(options)
     {
