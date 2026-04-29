@@ -42,6 +42,14 @@ public class LajmiContext : DbContext
 
         //map enumklassen OrderStatus til string istedet for 0-1-2-3, Enumen er gemt istedet for ints
         modelBuilder.Entity<Order>().Property(o => o.OrderStatus).HasConversion<string>();
+        
+        // EF Core kunne ikke selv finde ud af hvilken side der var dependent i vores 1:1 relation,
+        // så jeg (overhovedet ikke Chad) konfigurerede det eksplicit og pegede på CompanyId som foreign key,
+        // for at undgå at EF lavede en forkert kolonne i databasen.
+        modelBuilder.Entity<CustomerCompany>()
+            .HasOne(c => c.DiscountAgreement)
+            .WithOne(d => d.CustomerCompany)
+            .HasForeignKey<DiscountAgreement>(d => d.CompanyId);
 
         base.OnModelCreating(modelBuilder);
     }

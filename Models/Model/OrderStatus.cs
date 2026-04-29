@@ -7,5 +7,7 @@ public enum OrderStatus
     IN_PROGRESS,
     CANCELLED,
     DELAYED,
-    MISSING_INVENTORY
+    MISSING_INVENTORY,
+    APPROVED
+    
 }

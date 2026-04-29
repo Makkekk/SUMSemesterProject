@@ -17,7 +17,7 @@ public interface IOrderRepository
 public class OrderRepository : IOrderRepository
 {
     private readonly LajmiContext _context;
-    
+
     public OrderRepository(LajmiContext context)
     {
         _context = context;
@@ -29,11 +29,31 @@ public class OrderRepository : IOrderRepository
             .Include(o => o.CustomerCompany)
             .Include(o => o.OrderLines)
             .Where(o => o.OrderStatus == OrderStatus.ACTIVE)
-            .ToListAsync(); 
+            .ToListAsync();
 
         return orders.Select(o => OrderMapper.MapToDto(o));
     }
 
+
+    public async Task<Order?> GetById(Guid id)
+    {
+        return await _context.Order
+            .Include(o => o.OrderLabels)
+            .Include(o => o.OrderLines)
+            .Include(o => o.CustomerCompany)
+            .FirstOrDefaultAsync(o => o.OrderId == id);
+    }
+
+    public async Task SaveChanges()
+    {
+        await _context.SaveChangesAsync();
+    }
+    
+    public async Task AddOrderLabel(OrderLabel label)
+    {
+        await _context.Set<OrderLabel>().AddAsync(label);
+    }
+}
     public async Task<IEnumerable<OrderDto>> GetOrdersByCompanyIdAsync(Guid companyId)
     {
         var orders = await _context.Order
