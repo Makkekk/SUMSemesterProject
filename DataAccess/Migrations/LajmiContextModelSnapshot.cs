@@ -210,9 +210,15 @@ namespace DataAcces.Migrations
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("PasswordResetToken")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("PasswordResetTokenExpiry")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
@@ -235,11 +241,13 @@ namespace DataAcces.Migrations
 
             modelBuilder.Entity("Models.DiscountAgreement", b =>
                 {
-                    b.HasOne("Models.CustomerCompany", null)
+                    b.HasOne("Models.CustomerCompany", "CustomerCompany")
                         .WithOne("DiscountAgreement")
                         .HasForeignKey("Models.DiscountAgreement", "CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CustomerCompany");
                 });
 
             modelBuilder.Entity("Models.Order", b =>
