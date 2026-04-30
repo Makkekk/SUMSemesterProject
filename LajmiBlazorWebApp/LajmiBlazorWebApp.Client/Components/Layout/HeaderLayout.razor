@@ -1,7 +1,6 @@
-@using LajmiBlazorWebApp.Client.Components.Layout
-@using LajmiBlazorWebApp.Client.Services
 @inject CartService CartService
 @inject UserSessionService UserSession
+@inject NavigationManager Nav
 @implements IDisposable
 
 
@@ -17,7 +16,16 @@
         {
             <NavLink href="AdminPage">Dashboard</NavLink>
         }
-        <NavLink href="login">Log ind</NavLink>
+        @if (UserSession.IsLoggedIn)
+        {
+            <button class="nav-link-button" @onclick="Logout">
+                Log ud
+            </button>
+        }
+        else
+        {
+            <NavLink href="login">Log ind</NavLink>
+        }
     </nav>
 
     <div class="header-icons">
@@ -44,6 +52,12 @@
     }
 
     private void OnSessionChanged() => InvokeAsync(StateHasChanged);
+    
+    private void Logout()
+    {
+        UserSession.Logout();
+        Nav.NavigateTo("/");
+    }
 
     public void Dispose()
     {
