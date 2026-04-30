@@ -1,28 +1,41 @@
-﻿using ShopifySharp;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace LajmiAPI.Services;
 
 public class ShopifySyncService : BackgroundService
 {
-    private readonly IServiceProvider serviceProvider;
-    private readonly TimeSpan interval = TimeSpan.FromHours(1);
+    private readonly IServiceProvider _serviceProvider;
+    private readonly TimeSpan _interval = TimeSpan.FromHours(1);
     
-    public ShopifyService(IServiceProvider serviceProvider)
+    public ShopifySyncService(IServiceProvider serviceProvider)
     {
-        serviceProvider = serviceProvider;
+        _serviceProvider = serviceProvider;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        // Initial delay to let the app start up fully
+        await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
+
         while (!stoppingToken.IsCancellationRequested)
         {
-            using (var scope = serviceProvider.CreateScope())
+            try
             {
-                var shopifyService = scope.ServiceProvider.GetRequiredService<IShopifyService>();
-                await shopifyService.SyncProductsDatabase();
+                using (var scope = _serviceProvider.CreateScope())
+                {
+                    var shopifyService = scope.ServiceProvider.GetRequiredService<ShopifyService>();
+                    Console.WriteLine($"[{DateTime.Now}] Starting Shopify product sync...");
+                    var (imported, updated) = await shopifyService.SyncProductsDatabase();
+                    Console.WriteLine($"[{DateTime.Now}] Shopify sync completed. {imported} new products added, {updated} products updated.");
+                }
             }
-            await Task.Delay(interval, stoppingToken);
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[{DateTime.Now}] Error during Shopify sync: {ex.Message}");
+            }
+
+            await Task.Delay(_interval, stoppingToken);
         }
     }
-
 }

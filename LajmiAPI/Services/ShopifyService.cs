@@ -35,22 +35,31 @@ public class ShopifyService
         }).ToList();
     }
 
-    public async Task<int> SyncProductsDatabase()
+    public async Task<(int imported, int updated)> SyncProductsDatabase()
     {
         var shopifyProducts = await GetShopifyProductAsync();
+        var existingProducts = (await _productRepository.GetAllProductsAsync()).ToList();
         
-        var existingProducts = await _productRepository.GetAllProductsAsync();
         int importCount = 0;
+        int updateCount = 0;
 
         foreach (var shopifyProduct in shopifyProducts)
         {
-            if (!existingProducts.Any(p => p.ProductName == shopifyProduct.ProductName))
+            var existingProduct = existingProducts.FirstOrDefault(p => p.ProductName == shopifyProduct.ProductName);
+
+            if (existingProduct == null)
             {
                 await _productRepository.CreateProductAsync(shopifyProduct);
                 importCount++;
             }
+            else
+            {
+                // Update existing product with new details from Shopify
+                shopifyProduct.ProductId = existingProduct.ProductId;
+                await _productRepository.UpdateProductAsync(shopifyProduct);
+                updateCount++;
+            }
         }
-        return importCount;
-        
+        return (importCount, updateCount);
     }
 }

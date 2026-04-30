@@ -51,6 +51,10 @@ else
             </div>
         </div>
     }
+    <button class="btn-favorite" @onclick="() => ToggleFavorite(product.productId)">
+        @(isFavorite(product.productId) ? "⭐" : "☆")
+
+    </button>
 </div>
 }
 
@@ -63,14 +67,16 @@ else
 
     private decimal discount = 0.2m;
     private List<ProductDto> products = new();
+    private List<ProductDto> favorites = new();
 
     protected override async Task OnInitializedAsync()
     {
 
         products = await ProductService.GetProductsAsync();
+        favorites = (await UserService.GetFavoritesAsync(UserSession.CurrentUser.UserId)).ToList();
     }
 
- 
+
     private void PlaceInCart(Guid productId)
     {
         var productDto = products.FirstOrDefault(p => p.ProductId == productId);
@@ -89,5 +95,13 @@ else
         decimal discount = 0.2m; // dummy
         return calculateDiscountService.CalculatePrice(productDto, discount);
     }
+    
+    private bool isFavorite(Guid productId) => favorites.Any(p => p.ProductId == productId);
+
+    private void ToggleFavorite(Guid productId)
+    {
+        await UserService.to
+    }
+
 
 }
