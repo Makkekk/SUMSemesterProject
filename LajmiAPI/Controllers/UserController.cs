@@ -35,12 +35,12 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<UserDto>> CreateUser(UserDto userDto)
+    public async Task<ActionResult<UserDto>> CreateUser(RegisterDto registerDto)
     {
 
-        var userEnity = userDto.ToEntity();
+        var registerEnity = registerDto.ToEntity();
         
-        var createdUser = await _userRepository.CreateAsync(userEnity);
+        var createdUser = await _userRepository.CreateAsync(registerEnity);
         
         return CreatedAtAction(nameof(GetUser), new { id = createdUser.UserId }, createdUser);
     }
