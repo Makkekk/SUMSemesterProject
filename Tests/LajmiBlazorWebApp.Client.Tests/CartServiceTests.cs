@@ -1,3 +1,4 @@
+using DTO;
 using LajmiBlazorWebApp.Client.Services;
 using Models;
 using Xunit;
@@ -24,7 +25,7 @@ public class CartServiceTests
     {
         // Arrange
         var cartService = new CartService();
-        var product = new Product { ProductName = "Test Product", ProductPrice = 100m };
+        var product = new ProductDto() { ProductName = "Test Product", ProductPrice = 100m };
 
         // Act
         cartService.AddProduct(product);
@@ -56,7 +57,7 @@ public class CartServiceTests
         var cartService = new CartService();
         bool eventTriggered = false;
         cartService.OnChange += () => eventTriggered = true;
-        var product = new Product { ProductName = "Test Product", ProductPrice = 100m };
+        var product = new ProductDto() { ProductName = "Test Product", ProductPrice = 100m };
 
         // Act
         cartService.AddProduct(product);
@@ -70,7 +71,7 @@ public class CartServiceTests
     {
         // Arrange
         var cartService = new CartService();
-        var product = new Product { ProductPrice = 100m };
+        var product = new ProductDto { ProductPrice = 100m };
         decimal discount = 0.2m; // 20% discount
 
         // Act
@@ -85,8 +86,8 @@ public class CartServiceTests
     {
         // Arrange
         var cartService = new CartService();
-        cartService.AddProduct(new Product { ProductPrice = 100m });
-        cartService.AddProduct(new Product { ProductPrice = 200m });
+        cartService.AddProduct(new ProductDto { ProductPrice = 100m });
+        cartService.AddProduct(new ProductDto { ProductPrice = 200m });
         decimal discount = 0.1m; // 10% discount
 
         // Act

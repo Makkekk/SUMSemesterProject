@@ -10,8 +10,7 @@ public class CustomerCompany
     public string CompanyAddress { get; set; }
     public string CompanyPhoneNumber { get; set; }
     public string CompanyEmail { get; set; }
-
-    public List<Product> FavoriteProducts { get; set; } = new();
+    
     public List<Order> Orders { get; set; } = new();
     public List<User> Users { get; set; } = new();
 

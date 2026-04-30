@@ -13,10 +13,12 @@ public class UserController : ControllerBase
     // record for login
     public record LoginRequest(string Email, string Password);
     private readonly UserRepository _userRepository;
+    private readonly ICompanyRepository _companyRepository;
 
-    public UserController(UserRepository userRepository)
-    {
+    public UserController(UserRepository userRepository, ICompanyRepository companyRepository)
+    {   
         _userRepository = userRepository;
+        _companyRepository = companyRepository;
     }
 
     [HttpGet]
@@ -35,12 +37,34 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<UserDto>> CreateUser(RegisterDto registerDto)
+    public async Task<ActionResult<UserDto>> CreateUser(RegisterUserDto registerUserDto)
     {
+        var company = await _companyRepository.GetByCvrAsync(registerUserDto.Cvr);
+        Guid companyId;
 
-        var registerEnity = registerDto.ToEntity();
+       if (company == null)
+        {
+            var newCompanyRequest = new CreateCompanyRequest()
+            {
+                CompanyName = registerUserDto.CompanyName,
+                Cvr = registerUserDto.Cvr,
+                CompanyAddress = registerUserDto.CompanyAddress,
+                CompanyEmail = registerUserDto.CompanyEmail,
+                CompanyPhoneNumber = registerUserDto.CompanyPhoneNumber
+            };
+
+            var createdCompanyDto = await _companyRepository.CreateAsync(newCompanyRequest);
+            companyId = createdCompanyDto.CompanyId;
+        }
+        else
+        {
+            companyId = company.CompanyId;
+        }
+
+        var user = registerUserDto.ToEntity();
+        user.CompanyId = companyId;
         
-        var createdUser = await _userRepository.CreateAsync(registerEnity);
+        var createdUser = await _userRepository.CreateAsync(user);
         
         return CreatedAtAction(nameof(GetUser), new { id = createdUser.UserId }, createdUser);
     }

@@ -43,6 +43,20 @@
                 <ValidationMessage For="() => Input.PhoneNumber" class="text-danger"/>
             </div>
             <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.CompanyName" id="Input.CompanyName" class="form-control" autocomplete="organization"
+                           aria-required="true" placeholder="Firmanavn"/>
+                <label for="Input.CompanyName">Firmanavn</label>
+                <ValidationMessage For="() => Input.CompanyName" class="text-danger"/>
+            </div>
+            
+            <div class="form-floating mb-3">    
+                <InputText @bind-Value="Input.companyAddress" id="Input.CompanyAddress" class="form-control" autocomplete="street-address"
+                           aria-required="true" placeholder="Firmaadresse"/>
+                <label for="Input.CompanyAddress">Firmaadresse</label>
+                <ValidationMessage For="() => Input.companyAddress" class="text-danger"/>
+                
+            </div>
+            <div class="form-floating mb-3">
                 <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control"
                            autocomplete="new-password" aria-required="true" placeholder="password"/>
                 <label for="Input.Password">Password</label>
@@ -68,11 +82,16 @@
 
     public async Task RegisterUser(EditContext editContext)
     {
-        var dto = new RegisterDto
+        var dto = new RegisterUserDto
         {
             UserName = Input.Username,
             UserEmail = Input.Email,
             UserPhoneNumber = Input.PhoneNumber,
+            Cvr = Input.CvrNumber,
+            CompanyName = Input.CompanyName,
+            CompanyAddress = Input.companyAddress,
+            CompanyEmail = Input.Email,
+            CompanyPhoneNumber = Input.PhoneNumber,
             Password = Input.Password
         };
 
@@ -91,19 +110,6 @@
             {
                 new IdentityError { Description = error }
             };
-        }
-    }
-
-    private User CreateUser()
-    {
-        try
-        {
-            return Activator.CreateInstance<User>();
-        }
-        catch
-        {
-            throw new InvalidOperationException($"Can't create an instance of '{nameof(User)}'. " +
-                                                $"Ensure that '{nameof(User)}' is not an abstract class and has a parameterless constructor.");
         }
     }
 
@@ -139,6 +145,17 @@
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = "";
+        
+        [Required]
+        [Display(Name = "Company name")]
+        public string CompanyName { get; set; } = "";
+        
+        [Required]
+        [Display(Name = "Company address")]
+        public string companyAddress { get; set; } = "";
+        
+        
+        
     }
 
 }
