@@ -45,7 +45,7 @@ public static class DataInitializer
                     UserName = "testuser",
                     UserEmail = "test@lajmi.dk",
                     UserPhoneNumber = "+45 1234 5678",
-                    PasswordHash = "password",
+                    Password = "password",
                     IsAdmin = false,
                     CompanyId = adminCompanyId
                 });

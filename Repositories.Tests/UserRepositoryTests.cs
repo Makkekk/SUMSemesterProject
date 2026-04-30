@@ -44,7 +44,7 @@ public class UserRepositoryTests : IDisposable
                 UserName = "user1",
                 UserEmail = "user1@example.com",
                 UserPhoneNumber = "11111111",
-                PasswordHash = "hash1",
+                Password = "hash1",
                 CompanyId = companyId
             },
             new User
@@ -53,7 +53,7 @@ public class UserRepositoryTests : IDisposable
                 UserName = "user2",
                 UserEmail = "user2@example.com",
                 UserPhoneNumber = "22222222",
-                PasswordHash = "hash2",
+                Password = "hash2",
                 CompanyId = companyId
             }
         });
@@ -94,7 +94,7 @@ public class UserRepositoryTests : IDisposable
             UserName = "newuser",
             UserEmail = "newuser@example.com",
             UserPhoneNumber = "33333333",
-            PasswordHash = "newhash",
+            Password = "newhash",
             CompanyId = Guid.Parse("11111111-1111-1111-1111-111111111111")
         };
 
