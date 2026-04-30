@@ -1,6 +1,7 @@
 @inject IOrderService OrderService
 @inject CompanyService CompanyService
 @inject ProductService ProductService
+@inject DiscountAgreementService DiscountAgreementService
 @rendermode InteractiveServer
 @page "/AdminPage"
 @using DTO
@@ -273,6 +274,21 @@ else
 
     async Task GemDiscountAgreement()
     {
-        
+        formFejl = null;
+        formSucces = null;
+        if (int.IsNegative(newDiscountdto.discountProcentage) || newDiscountdto.CompanyId == Guid.Empty)
+        {
+            formFejl = "Procentsatsen skal være positiv og firmaet skal eksisterer i systemet... noob";
+            return;
+        }
+        var resultat = await DiscountAgreementService.CreateDiscountAgreementAsync(newDiscountdto);
+        if (resultat == null)
+        {
+            formFejl = "Noget gil galt. Prøv igen.";
+            return;
+        }
+        // Nulstiller formularen på pagen
+        formSucces = "Rabataftalen er oprettet.";
+        newDiscountdto = new();
     }
 }

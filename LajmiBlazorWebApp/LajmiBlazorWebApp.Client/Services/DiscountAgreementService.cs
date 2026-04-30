@@ -25,4 +25,11 @@ public class DiscountAgreementService
             return new List<DiscountAgreementDto>();
         }
     }
+
+    public async Task<DiscountAgreementDto> CreateDiscountAgreementAsync(CreateDiscountAgreementDto dto)
+    {
+        var response = await _http.PostAsJsonAsync("api/discount", dto);
+        if (!response.IsSuccessStatusCode) return null;
+        return await response.Content.ReadFromJsonAsync<DiscountAgreementDto>();
+    }
 }
