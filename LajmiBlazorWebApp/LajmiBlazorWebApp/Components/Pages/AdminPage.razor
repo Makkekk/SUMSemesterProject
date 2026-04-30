@@ -50,22 +50,22 @@ else
 
     <button class="admin-btn" @onclick="@(() => ToggleForm("opretKunde"))">Opret Kunde</button>
 
-    <button class="admin-btn">Opret Vare</button>
+    <button class="admin-btn"@onclick="@(() =>ToggleForm("OpretRabatAftale"))">Opret Rabataftale</button>
 
     <button class="admin-btn" @onclick="@(() => ToggleForm("opretOrdre"))">Opret Ordre</button>
 
 
     <button class="admin-btn">Rediger Kunde</button>
 
-    <button class="admin-btn">Rediger Vare</button>
-
+    <button class="admin-btn">Rediger Rabataftale</button>
+    
     <button class="admin-btn">Rediger Ordre</button>
 
 
     <button class="admin-btn">Slet Kunde</button>
 
-    <button class="admin-btn">Slet Vare</button>
-
+    <button class="admin-btn">Slet Rabataftale</button>
+    
     <button class="admin-btn">Slet Ordre</button>
 
 </div>
@@ -117,6 +117,30 @@ else
     </div>
 }
 
+@if(aktivForm == "OpretRabatAftale"){
+
+    <h3>Opret rabat aftale til kunde</h3>
+    
+    <label>Firma</label>
+    <select @bind="nyOrdre.CompanyId">
+        <option value="@Guid.Empty">-- Vælg firma --</option>
+        @foreach (var firma in firmaer)
+        {
+            <option value="@firma.CompanyId">@firma.CompanyName</option>
+        }
+    </select>
+    
+    <label>Rabat i Procent </label>
+    <input @bind="newDiscountdto.discountProcentage" placeholder="15"></input>
+    
+    <label>startdato for rabataftale</label>
+    <InputDate Type="InputDateType.DateTimeLocal" @bind-Value="newDiscountdto.StartDate"></InputDate>
+    
+    <label>slutdato for rabataftale</label>
+    <InputDate Type="InputDateType.DateTimeLocal" @bind-Value="newDiscountdto.EndDate"></InputDate>
+    
+}
+
 @if (aktivForm == "opretKunde")
 {
     <div class="admin-form">
@@ -150,8 +174,10 @@ else
             <button class="admin-btn" @onclick="GemKunde">Gem</button>
             <button class="admin-btn admin-btn-cancel" @onclick="() => ToggleForm(null)">Annuller</button>
         </div>
-    </div>
+    </div> 
+    
 }
+
 
 @code {
 
@@ -163,6 +189,7 @@ else
     string formSucces = null;
     CreateCompanyRequest nyKunde = new();
     CreateOrderRequest nyOrdre = new();
+    CreateDiscountAgreementDto newDiscountdto = new();
 
     protected override async Task OnInitializedAsync()
     {
