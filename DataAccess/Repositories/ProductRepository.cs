@@ -8,8 +8,8 @@ namespace DataAcces.Repositories;
 
 public interface IProductRepository
 {
-    Task<IEnumerable<ProductDto>> GetAllAsync();
-    Task<ProductDto> GetByIdAsync(Guid id);
+    Task<IEnumerable<ProductDto>> GetAllProductsAsync();
+    Task<ProductDto> GetProductByIdAsync(Guid id);
     Task<ProductDto> CreateProductAsync(ProductDto productDto);
 }
 
@@ -22,13 +22,13 @@ public class ProductRepository : IProductRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<ProductDto>> GetAllAsync()
+    public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
     {
         var products = await _context.Product.ToListAsync();
         return products.Select(p => p.ToDto());
     }
 
-    public async Task<ProductDto> GetByIdAsync(Guid id)
+    public async Task<ProductDto> GetProductByIdAsync(Guid id)
     {
         var product = await _context.Product.FindAsync(id);
         return product?.ToDto();
