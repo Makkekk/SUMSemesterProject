@@ -17,7 +17,7 @@ public static class RegisterMapper
             UserName = registerDto.UserName,
             UserEmail = registerDto.UserEmail,
             UserPhoneNumber = registerDto.UserPhoneNumber,
-            PasswordHash = registerDto.Password,
+            Password = registerDto.Password,
         };
     }
 }
