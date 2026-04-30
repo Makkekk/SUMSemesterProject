@@ -2,7 +2,7 @@
 @inject UserService userservice
 @inject UserSessionService session
 @inject NavigationManager nav
-@page "/login"
+@page "/"
 @using LajmiBlazorWebApp.Client.Services
 @using Models
 
@@ -38,6 +38,14 @@
     string username;
     string password;
     [SupplyParameterFromQuery] private string? ReturnUrl { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (session.IsLoggedIn)
+        {
+            nav.NavigateTo("/Products");
+        }
+    }
 
     private async Task Submit()
     {
