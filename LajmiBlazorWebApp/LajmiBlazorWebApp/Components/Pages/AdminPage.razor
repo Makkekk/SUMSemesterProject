@@ -130,7 +130,8 @@ else
             <option value="@firma.CompanyId">@firma.CompanyName</option>
         }
     </select>
-    
+    <label>Rabataftale beskrivelse</label>
+    <InputTextArea @bind-Value="newDiscountdto.discountDescription"></InputTextArea>
     <label>Rabat i Procent </label>
     <input @bind="newDiscountdto.discountProcentage" placeholder="15"></input>
     

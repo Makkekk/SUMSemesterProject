@@ -32,7 +32,7 @@ public static class DiscountAgreementMapper
         {
             DiscountId = Guid.NewGuid(),
             DiscountPercentage = discountAgreementDto.discountProcentage,
-            AgreementDescription = discountAgreementDto.discountAgreement,
+            AgreementDescription = discountAgreementDto.discountDescription,
             CompanyId = discountAgreementDto.CompanyId,
             DiscountValidFrom = discountAgreementDto.StartDate,
             DiscountValidTo = discountAgreementDto.EndDate

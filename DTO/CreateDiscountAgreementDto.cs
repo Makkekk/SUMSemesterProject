@@ -9,4 +9,6 @@ public class CreateDiscountAgreementDto
     public DateTime EndDate { get; set; }
     
     public int discountProcentage  { get; set; }
+    
+    public string discountDescription { get; set; }
 }
