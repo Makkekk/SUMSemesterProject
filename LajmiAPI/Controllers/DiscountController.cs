@@ -24,4 +24,19 @@ public class DiscountController : ControllerBase
         var d = await _discountAgreement.GetAllDiscountsAsync();
             return Ok(d);
     }
+
+    [HttpPost]
+    public async Task<ActionResult<DiscountAgreementDto>> PostDiscountAgreement(CreateDiscountAgreementDto dto)
+    {
+        try
+        {
+            var discountAgreement = await _discountAgreement.SaveDiscountAgreementAsync(dto);
+
+            return Ok(discountAgreement);
+        }
+        catch
+        {
+            return StatusCode(500);
+        }
+    }
 }
