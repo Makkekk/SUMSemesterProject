@@ -205,9 +205,15 @@ namespace DataAcces.Migrations
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("PasswordResetToken")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("PasswordResetTokenExpiry")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
