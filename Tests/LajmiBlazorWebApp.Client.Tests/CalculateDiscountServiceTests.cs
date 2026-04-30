@@ -1,6 +1,7 @@
 using LajmiBlazorWebApp.Client.Services;
 using Models;
 using Xunit;
+using DTO;
 
 namespace LajmiBlazorWebApp.Client.Tests;
 
@@ -11,7 +12,7 @@ public class CalculateDiscountServiceTests
     {
         // Arrange
         var service = new CalculateDiscountService();
-        var product = new Product { ProductPrice = 500m };
+        var product = new ProductDto { ProductPrice = 500m };
         decimal discount = 0.15m; 
 
         // Act
@@ -27,7 +28,7 @@ public class CalculateDiscountServiceTests
     {
         // Arrange
         var service = new CalculateDiscountService();
-        var product = new Product { ProductPrice = 500m };
+        var product = new ProductDto() { ProductPrice = 500m };
         decimal discount = 0m;
 
         // Act
