@@ -122,7 +122,7 @@ else
     <h3>Opret rabat aftale til kunde</h3>
     
     <label>Firma</label>
-    <select @bind="nyOrdre.CompanyId">
+    <select @bind="newDiscountdto.CompanyId">
         <option value="@Guid.Empty">-- Vælg firma --</option>
         @foreach (var firma in firmaer)
         {
@@ -138,6 +138,9 @@ else
     
     <label>slutdato for rabataftale</label>
     <InputDate Type="InputDateType.DateTimeLocal" @bind-Value="newDiscountdto.EndDate"></InputDate>
+    
+    
+    <button class="admin-btn" @onclick="GemDiscountAgreement">Gem</button>
     
 }
 
@@ -266,5 +269,10 @@ else
 
         formSucces = $"{resultat.CompanyName} er oprettet.";
         nyKunde = new();
+    }
+
+    async Task GemDiscountAgreement()
+    {
+        
     }
 }
