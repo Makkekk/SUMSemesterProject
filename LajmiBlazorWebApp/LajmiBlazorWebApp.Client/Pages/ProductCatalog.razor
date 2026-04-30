@@ -1,11 +1,20 @@
 @rendermode InteractiveAuto
 @page "/products"
 @using LajmiBlazorWebApp.Client.Services
+@using DTO
+@inject ProductService ProductService
 @using Models
 @inject CartService CartService
 @inject CalculateDiscountService calculateDiscountService
 
 <h1>Vores Produkter</h1>
+
+    if (products == null || !products.Any())
+{
+    <p>Indlæser produkter...</p>
+} 
+else 
+{
 
 <div class="product-grid">
     @foreach (var product in products)
@@ -52,38 +61,32 @@
 
 
     private decimal discount = 0.2m;
+    private List<ProductDto> products = new();
 
-    private List<Product> products = new();
-
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        products = new List<Product>
-        {
-            new Product { ProductId = Guid.NewGuid(), ProductName = "Brazil - MANTIQUEIRA AZUL", ProductPrice = 85.00m, ImageUrl = "/Images/Products/AZUL.png" },
-            new Product { ProductId = Guid.NewGuid(), ProductName = "Tasting Box - Flere muligheder", ProductPrice = 350.00m, ImageUrl = "/Images/Products/Fyr.png", },
-            new Product { ProductId = Guid.NewGuid(), ProductName = "BWT magnesium filtre (3-pak)", ProductPrice = 129.00m, ImageUrl = "/Images/Products/Mag_Water.png", },
-            new Product { ProductId = Guid.NewGuid(), ProductName = "54mm naked portafilter holder", ProductPrice = 399.00m, ImageUrl = "/Images/Products/Ruby.png", }
-        };
+
+        products = await ProductService.GetProductsAsync();
     }
 
-// Denne metode er helt håbløs, men den virker for nu .... 
+ 
     private void PlaceInCart(Guid productId)
     {
-        var product = products.FirstOrDefault(p => p.ProductId == productId);
+        var productDto = products.FirstOrDefault(p => p.ProductId == productId);
 
-        if (product != null)
+        if (productDto != null)
         {
-            CartService.AddProduct(product);
-            Console.WriteLine($"Tilføjet: {product.ProductName}");
+            CartService.AddProduct(productDto);
+            Console.WriteLine($"Tilføjet: {productDto.ProductName}");
         }
 
         CartService.AddProductcounter();
     }
 
-    private decimal GetDiscountedPrice(Product product)
+    private decimal GetDiscountedPrice(ProductDto productDto)
     {
         decimal discount = 0.2m; // dummy
-        return calculateDiscountService.CalculatePrice(product, discount);
+        return calculateDiscountService.CalculatePrice(productDto, discount);
     }
 
 }

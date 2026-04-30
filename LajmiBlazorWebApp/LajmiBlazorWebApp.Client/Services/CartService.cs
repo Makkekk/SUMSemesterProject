@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using DTO;
 using Models;
 
 namespace LajmiBlazorWebApp.Client.Services;
 
 public class CartService
 {
-    public List<Product> Items { get; private set; } = new();
+    public List<ProductDto> Items { get; private set; } = new();
 
     // Her sikre vi at kun metoderne i denne klasse kan ændre NumOfProducts. Indkapsling
     private int _NumOfProducts = 0;
@@ -21,18 +22,19 @@ public class CartService
         NotifyStateChanged();
     }
 
-    public void AddProduct(Product product)
+    public void AddProduct(ProductDto productDto)
     {
-        Items.Add(product);
+        Items.Add(productDto);
         NotifyStateChanged();
     }
 
 
     public void NotifyStateChanged() => OnChange?.Invoke();
 
-    public decimal GetDiscountedPrice(Product product, decimal discount)
+    //burde den ændres til serverside
+    public decimal GetDiscountedPrice(ProductDto productDto, decimal discount)
     {
-        return product.ProductPrice * (1 - discount);
+        return productDto.ProductPrice * (1 - discount);
     }
     
     public decimal GetTotalPrice(decimal discount)

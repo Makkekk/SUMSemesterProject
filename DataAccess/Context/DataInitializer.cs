@@ -37,6 +37,18 @@ public static class DataInitializer
                     IsAdmin = true,
                     CompanyId = adminCompanyId
                 });
+
+                // Add a regular test user
+                context.User.Add(new User
+                {
+                    UserId = Guid.NewGuid(),
+                    UserName = "testuser",
+                    UserEmail = "test@lajmi.dk",
+                    UserPhoneNumber = "+45 1234 5678",
+                    PasswordHash = "password",
+                    IsAdmin = false,
+                    CompanyId = adminCompanyId
+                });
                 context.SaveChanges();
             }
             else if (!adminUser.IsAdmin)

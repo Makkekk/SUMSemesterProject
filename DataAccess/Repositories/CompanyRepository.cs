@@ -11,9 +11,12 @@ namespace DataAcces.Repositories;
 // Sig mig... Laver vi et interface inde i en klasse her ? Altså et nested interface? Hvilken psykopat har valgt dette?
 public interface ICompanyRepository
 {
-    Task<IEnumerable<CustomerCompanyDto>> GetAllAsync();
+    Task<IEnumerable<CustomerCompanyDto?>> GetAllAsync();
     Task<CustomerCompanyDto> GetByIdAsync(Guid id);
     Task<CustomerCompanyDto> CreateAsync(CreateCompanyRequest request);
+    
+    Task<CustomerCompanyDto> GetByCvrAsync(string cvr);
+    
 }
 
 public class CompanyRepository : ICompanyRepository
@@ -31,9 +34,16 @@ public class CompanyRepository : ICompanyRepository
         return companies.Select(c => c.ToDto());
     }
 
+    public async Task<CustomerCompanyDto> GetByCvrAsync(string cvr)
+    {
+        var company = await _context.CustomerCompany.FirstOrDefaultAsync(c => c.Cvr == cvr);
+        
+        return company?.ToDto();
+}
+
     public async Task<CustomerCompanyDto> GetByIdAsync(Guid id)
     {
-        var company = await _context.CustomerCompany.Include(c => c.DiscountAgreement).FirstOrDefaultAsync(c => c.CompanyId == id);
+        var company = await _context.CustomerCompany.FirstOrDefaultAsync(c => c.CompanyId == id);
 
         return company?.ToDto();
     }

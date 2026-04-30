@@ -16,7 +16,9 @@ public class User
     public string Password { get; set; } 
     
     public bool IsAdmin { get; set; }
-
+    
+    public List<Product> FavoriteProducts { get; set; } = new();
+    
     // Relation til CustomerCompany
     public Guid CompanyId { get; set; }
 

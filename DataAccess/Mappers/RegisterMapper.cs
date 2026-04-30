@@ -5,9 +5,9 @@ namespace DataAcces.Mappers;
 
 public static class RegisterMapper
 {
-    public static User ToEntity(this RegisterDto registerDto)
+    public static User ToEntity(this RegisterUserDto registerUserDto)
     {
-        if (registerDto == null)
+        if (registerUserDto == null)
         {
             return null;
         }
