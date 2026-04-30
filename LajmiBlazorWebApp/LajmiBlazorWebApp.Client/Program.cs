@@ -13,6 +13,7 @@ class Program
         builder.Services.AddScoped<UserService>();
         builder.Services.AddScoped<CartService>();
         builder.Services.AddScoped<ProductService>();
+        builder.Services.AddScoped<DiscountAgreementService>();
         builder.Services.AddScoped<IOrderService, OrderService>();
         builder.Services.AddScoped<CalculateDiscountService>();
         builder.Services.AddScoped<CompanyService>();

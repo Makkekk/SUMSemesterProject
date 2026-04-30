@@ -20,4 +20,22 @@ public static class DiscountAgreementMapper
             DiscountValidTo = discountAgreement.DiscountValidTo
         };
     }
+
+    public static DiscountAgreement ToEntity(this CreateDiscountAgreementDto discountAgreementDto)
+    {
+        if (discountAgreementDto == null)
+        {
+            return null;
+        }
+
+        return new DiscountAgreement()
+        {
+            DiscountId = Guid.NewGuid(),
+            DiscountPercentage = discountAgreementDto.discountProcentage,
+            AgreementDescription = discountAgreementDto.discountDescription,
+            CompanyId = discountAgreementDto.CompanyId,
+            DiscountValidFrom = discountAgreementDto.StartDate,
+            DiscountValidTo = discountAgreementDto.EndDate
+        };
+    }
 }
