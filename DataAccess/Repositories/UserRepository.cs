@@ -9,10 +9,14 @@ namespace DataAcces.Repositories;
 public interface IUserRepository
 {
     Task<IEnumerable<UserDto>> GetAllAsync();
-    Task<UserDto> GetByIdAsync(Guid id);
-    Task<UserDto> CreateAsync(User user);
+    Task<UserDto?> GetByIdAsync(Guid id);
+    Task<UserDto?> CreateAsync(User user);
     Task<bool> UpdateAsync(User user);
     Task<bool> DeleteAsync(Guid id);
+    Task<UserDto?> LoginAsync(string brugernavn, string password);
+    Task<User?> GetByEmailAsync(string email);
+    Task<User?> GetValidResetTokenAsync(string token);
+    Task<User?> GetByResetTokenAsync(string token);
 }
 
 public class UserRepository : IUserRepository
@@ -33,7 +37,7 @@ public class UserRepository : IUserRepository
         return users.Select(u => u.ToDto());
     }
 
-    public async Task<UserDto> GetByIdAsync(Guid id)
+    public async Task<UserDto?> GetByIdAsync(Guid id)
     {
         var user = await _context.User
             .Include(u => u.CustomerCompany)
@@ -42,9 +46,11 @@ public class UserRepository : IUserRepository
         return user?.ToDto();
     }
 
-    public async Task<UserDto> CreateAsync(User user)
+    public async Task<UserDto?> CreateAsync(User user)
     {
         if (user.UserId == Guid.Empty) user.UserId = Guid.NewGuid();
+        
+        user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
         _context.User.Add(user);
         await _context.SaveChangesAsync();
@@ -93,11 +99,31 @@ public class UserRepository : IUserRepository
             return null;
         }
         //Password check
-        if (user.PasswordHash != password)
+        if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
                 return null;
             }
         return user.ToDto();
         
+    }
+    
+    public async Task<User?> GetByEmailAsync(string email)
+    {
+        return await _context.User
+            .FirstOrDefaultAsync(u => u.UserEmail == email);
+    }
+
+    public async Task<User?> GetValidResetTokenAsync(string token)
+    {
+        return await _context.User
+            .FirstOrDefaultAsync(u =>
+                u.PasswordResetToken == token &&
+                u.PasswordResetTokenExpiry > DateTime.UtcNow);
+    }
+    
+    public async Task<User?> GetByResetTokenAsync(string token)
+    {
+        return await _context.User
+            .FirstOrDefaultAsync(u => u.PasswordResetToken == token);
     }
 }
