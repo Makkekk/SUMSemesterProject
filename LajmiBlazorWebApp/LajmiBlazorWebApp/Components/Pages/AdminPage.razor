@@ -285,7 +285,7 @@ else
         var resultat = await DiscountAgreementService.CreateDiscountAgreementAsync(newDiscountdto);
         if (resultat == null)
         {
-            formFejl = "Noget gil galt. Prøv igen.";
+            formFejl = "Noget gik galt. Prøv igen.";
             return;
         }
         // Nulstiller formularen på pagen
