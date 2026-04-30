@@ -11,4 +11,7 @@ public class Product
     public decimal Vat { get; set; }
     public double ProductWeight { get; set; }
     public decimal ProductPrice { get; set; }
+
+    public List<User> FavoritedByUsers { get; set; } = new();
+
 }

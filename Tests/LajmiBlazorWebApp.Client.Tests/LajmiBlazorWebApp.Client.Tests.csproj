@@ -23,6 +23,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\LajmiBlazorWebApp\LajmiBlazorWebApp.Client\LajmiBlazorWebApp.Client.csproj" />
       <ProjectReference Include="..\..\Models\Models.csproj" />
+      <ProjectReference Include="..\..\DTO\DTO.csproj" /> 
     </ItemGroup>
 
 </Project>
