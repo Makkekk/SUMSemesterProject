@@ -26,9 +26,9 @@ public class ShopifyService
         return shopifyProducts.Items.Select(p => new ProductDto()
         {
             ProductId = Guid.NewGuid(),
-            Name = p.Title,
+            ProductName = p.Title,
             Description = p.BodyHtml ?? "",
-            Price = p.Variants.FirstOrDefault()?.Price ?? 0,
+            ProductPrice = p.Variants.FirstOrDefault()?.Price ?? 0,
             ImageUrl = p.Images.FirstOrDefault()?.Src ?? "",
             Vat = 0.25m,
             ProductWeight = (double)(p.Variants.FirstOrDefault()?.Weight ?? 0)
@@ -39,12 +39,12 @@ public class ShopifyService
     {
         var shopifyProducts = await GetShopifyProductAsync();
         
-        var existingProducts = await _productRepository.GetAllAsync();
+        var existingProducts = await _productRepository.GetAllProductsAsync();
         int importCount = 0;
 
         foreach (var shopifyProduct in shopifyProducts)
         {
-            if (!existingProducts.Any(p => p.Name == shopifyProduct.Name))
+            if (!existingProducts.Any(p => p.ProductName == shopifyProduct.ProductName))
             {
                 await _productRepository.CreateProductAsync(shopifyProduct);
                 importCount++;

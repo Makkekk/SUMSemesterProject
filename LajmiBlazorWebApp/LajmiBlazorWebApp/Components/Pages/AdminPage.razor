@@ -92,7 +92,7 @@ else
                     <option value="@Guid.Empty">-- Vælg produkt --</option>
                     @foreach (var produkt in produkter)
                     {
-                        <option value="@produkt.ProductId">@produkt.Name</option>
+                        <option value="@produkt.ProductId">@produkt.ProductName</option>
                     }
                 </select>
                 <input type="number" @bind="linje.Quantity" min="1" />
