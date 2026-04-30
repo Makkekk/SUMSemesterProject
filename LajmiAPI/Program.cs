@@ -21,6 +21,7 @@ builder.Services.AddScoped<ShipmondoService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<ShopifyService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<ShopifySyncService>();
 
 
 builder.Services.AddControllers();
