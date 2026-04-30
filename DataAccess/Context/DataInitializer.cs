@@ -33,7 +33,7 @@ public static class DataInitializer
                     UserName = "admin",
                     UserEmail = "admin@lajmi.dk",
                     UserPhoneNumber = "+45 0000 0000",
-                    Password = BCrypt.Net.BCrypt.HashPassword("admin"),
+                    Password = "admin",
                     IsAdmin = true,
                     CompanyId = adminCompanyId
                 });
@@ -45,7 +45,7 @@ public static class DataInitializer
                     UserName = "testuser",
                     UserEmail = "test@lajmi.dk",
                     UserPhoneNumber = "+45 1234 5678",
-                    Password = BCrypt.Net.BCrypt.HashPassword("password"),
+                    Password = "password",
                     IsAdmin = false,
                     CompanyId = adminCompanyId
                 });
