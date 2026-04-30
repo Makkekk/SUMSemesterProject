@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using DataAcces.Repositories;
 using DTO;
 using LajmiAPI.Services;
@@ -21,19 +22,22 @@ public class AuthController : ControllerBase
     [HttpPost("forgot-password")]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
     {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        
         var user = await _userRepository.GetByEmailAsync(dto.Email);
 
         if (user == null)
             return Ok();
 
-        var token = Guid.NewGuid().ToString();
+        var token = GenerateResetToken();
 
         user.PasswordResetToken = token;
         user.PasswordResetTokenExpiry = DateTime.UtcNow.AddHours(1);
 
         await _userRepository.UpdateAsync(user);
 
-        var resetLink = $"http://localhost:5000/reset-password?token={Uri.EscapeDataString(token)}";
+        var resetLink = $"https://localhost:7088/ResetPassword?token={Uri.EscapeDataString(token)}";
 
         await _emailService.SendAsync(
             dto.Email,
@@ -47,10 +51,18 @@ public class AuthController : ControllerBase
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
     {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        
         var user = await _userRepository.GetByResetTokenAsync(dto.Token);
 
-        if (user == null || user.PasswordResetTokenExpiry < DateTime.UtcNow)
+        if (user == null ||
+            string.IsNullOrWhiteSpace(user.PasswordResetToken) ||
+            user.PasswordResetTokenExpiry == null ||
+            user.PasswordResetTokenExpiry <= DateTime.UtcNow)
+        {
             return BadRequest("Invalid or expired token");
+        }
 
         user.Password = HashPassword(dto.NewPassword); // vigtig!
 
@@ -65,5 +77,10 @@ public class AuthController : ControllerBase
     private string HashPassword(string password)
     {
         return BCrypt.Net.BCrypt.HashPassword(password);
+    }
+    
+    private string GenerateResetToken()
+    {
+        return Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
     }
 }
