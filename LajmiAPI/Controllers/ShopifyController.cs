@@ -26,7 +26,7 @@ public class ShopifyController : ControllerBase
     [HttpPost("sync")]
     public async Task<ActionResult<string>> SyncProducts()
     {
-        var count = await _service.SyncProductsDatabase();
-        return Ok($"{count} nye produkter blev synkroniseret til databasen!");
+        var (imported, updated) = await _service.SyncProductsDatabase();
+        return Ok($"{imported} nye produkter blev importeret, og {updated} produkter blev opdateret!");
     }
 }

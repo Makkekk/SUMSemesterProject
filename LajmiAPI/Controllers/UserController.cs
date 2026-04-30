@@ -104,4 +104,25 @@ public class UserController : ControllerBase
         }
         
     }
+
+    [HttpPost("{userId}/favorites/{productId}")]
+    public async Task<IActionResult> ToggleFavorite(Guid userId, Guid productId)
+    {
+        var succes = await _userRepository.ToggleFavoriteAsync(userId, productId);
+        if (!succes)
+        {
+            return BadRequest();
+        }
+        else
+        {
+            return Ok();
+        }
+    }
+
+    [HttpGet("{userId}/favorites")]
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetFavoriteProducts(Guid userId)
+    {
+        var favorites = await _userRepository.GetFavoritesAsync(userId);
+        return Ok(favorites);
+    }
 }

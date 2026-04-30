@@ -17,6 +17,9 @@ public interface IUserRepository
     Task<User?> GetByEmailAsync(string email);
     Task<User?> GetValidResetTokenAsync(string token);
     Task<User?> GetByResetTokenAsync(string token);
+    
+    Task<bool> ToggleFavoriteAsync(Guid userId, Guid productId);
+    Task<IEnumerable<ProductDto>> GetFavoritesAsync(Guid userId);
 }
 
 public class UserRepository : IUserRepository
@@ -49,7 +52,7 @@ public class UserRepository : IUserRepository
     public async Task<UserDto?> CreateAsync(User user)
     {
         if (user.UserId == Guid.Empty) user.UserId = Guid.NewGuid();
-        
+
         user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
         _context.User.Add(user);
@@ -86,27 +89,27 @@ public class UserRepository : IUserRepository
 // metode til log-in page
     public async Task<UserDto?> LoginAsync(string brugernavn, string password)
     {
-        
         //Hent bruger med samme brugernavn fra DB
         var user = await _context.User
             .Include(u => u.CustomerCompany)
             .FirstOrDefaultAsync(u =>
-            u.UserName == brugernavn
-        );
+                u.UserName == brugernavn
+            );
         //Fandt vi brugeren?
         if (user == null)
         {
             return null;
         }
+
         //Password check
         if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
-            {
-                return null;
-            }
+        {
+            return null;
+        }
+
         return user.ToDto();
-        
     }
-    
+
     public async Task<User?> GetByEmailAsync(string email)
     {
         return await _context.User
@@ -120,10 +123,39 @@ public class UserRepository : IUserRepository
                 u.PasswordResetToken == token &&
                 u.PasswordResetTokenExpiry > DateTime.UtcNow);
     }
-    
+
     public async Task<User?> GetByResetTokenAsync(string token)
     {
         return await _context.User
             .FirstOrDefaultAsync(u => u.PasswordResetToken == token);
+    }
+
+    // toggle favorite produkt
+    public async Task<bool> ToggleFavoriteAsync(Guid userId, Guid productId)
+    {
+        var user = await _context.User.Include(u => u.FavoriteProducts).FirstOrDefaultAsync(u => u.UserId == userId);
+       
+        var product = await _context.Product.FindAsync(productId);
+
+        if (user == null || product == null) return false;
+
+        if (user.FavoriteProducts.Any(p => p.ProductId == productId))
+        {
+            user.FavoriteProducts.Remove(product);
+        }
+        else
+        {
+            user.FavoriteProducts.Add(product);
+        }
+
+        await _context.SaveChangesAsync();
+        return true;
+    }
+    
+    //get all favorites
+    public async Task<IEnumerable<ProductDto>> GetFavoritesAsync(Guid userId)
+    {
+        var user = await _context.User.Include(u => u.FavoriteProducts).FirstOrDefaultAsync(u => u.UserId == userId);
+        return user?.FavoriteProducts.Select(p => p.ToDto()) ?? new List<ProductDto>();
     }
 }

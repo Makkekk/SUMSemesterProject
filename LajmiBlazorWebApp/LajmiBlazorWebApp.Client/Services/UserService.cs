@@ -28,4 +28,16 @@ public class UserService
     return await response.Content.ReadFromJsonAsync<UserDto?>();
     
     }
+
+    public async Task<bool> ToggleFavoriteAsync(Guid userId, Guid productId)
+    {
+        var response = await _httpClient.PostAsync($"api/user/{userId}/favorites/{productId}", null);
+        return response.IsSuccessStatusCode;
+    }
+
+    public async Task<List<ProductDto>> GetFavoriteProductsAsync(Guid userId)
+    {
+        return await _httpClient.GetFromJsonAsync<List<ProductDto>>($"api/user/{userId}/favorites") ??
+               new List<ProductDto>();
+    }
 }
