@@ -13,7 +13,7 @@ public class User
     [Required]
     public string? UserPhoneNumber { get; set; }
     
-    public string PasswordHash { get; set; } 
+    public string Password { get; set; } 
     
     public bool IsAdmin { get; set; }
     
@@ -23,4 +23,8 @@ public class User
     public Guid CompanyId { get; set; }
 
     public CustomerCompany CustomerCompany { get; set; }
+    
+    public string? PasswordResetToken { get; set; }
+    
+    public DateTime? PasswordResetTokenExpiry { get; set; }
 }

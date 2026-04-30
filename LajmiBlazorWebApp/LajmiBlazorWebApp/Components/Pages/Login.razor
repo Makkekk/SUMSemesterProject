@@ -23,6 +23,10 @@
         <button class="login-btn" @onclick="Submit">Log ind</button>
         
         <p>
+            <a href="ForgotPassword">Forgot your password?</a>
+        </p>
+        
+        <p>
             <a href="@(nav.GetUriWithQueryParameters("Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</a>
         </p>
 
