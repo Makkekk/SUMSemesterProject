@@ -9,7 +9,7 @@
 
 <h1>Vores Produkter</h1>
 
-    if (products == null || !products.Any())
+@if (products == null || !products.Any())
 {
     <p>Indlæser produkter...</p>
 } 
@@ -52,6 +52,7 @@ else
         </div>
     }
 </div>
+}
 
 @code {
 

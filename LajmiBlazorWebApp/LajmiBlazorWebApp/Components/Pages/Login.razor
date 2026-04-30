@@ -1,10 +1,11 @@
 @rendermode InteractiveServer
+@layout LoginLayout
 @inject UserService userservice
 @inject UserSessionService session
 @inject NavigationManager nav
+@page "/"
 @page "/login"
 @using LajmiBlazorWebApp.Client.Services
-@using Models
 
 <div class="login-wrapper">
     <div class="login-card">
@@ -42,6 +43,14 @@
     string username;
     string password;
     [SupplyParameterFromQuery] private string? ReturnUrl { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (session.IsLoggedIn)
+        {
+            nav.NavigateTo("/Products");
+        }
+    }
 
     private async Task Submit()
     {

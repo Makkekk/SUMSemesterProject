@@ -14,10 +14,10 @@ public static class RegisterMapper
 
         return new User
         {
-            UserName = registerDto.UserName,
-            UserEmail = registerDto.UserEmail,
-            UserPhoneNumber = registerDto.UserPhoneNumber,
-            Password = registerDto.Password,
+            UserName = registerUserDto.UserName,
+            UserEmail = registerUserDto.UserEmail,
+            UserPhoneNumber = registerUserDto.UserPhoneNumber,
+            Password = registerUserDto.Password,
         };
     }
 }
