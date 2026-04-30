@@ -54,10 +54,18 @@ public class ShopifyService
             }
             else
             {
-                // Update existing product with new details from Shopify
-                shopifyProduct.ProductId = existingProduct.ProductId;
-                await _productRepository.UpdateProductAsync(shopifyProduct);
-                updateCount++;
+                // Update existing product only if important things have changed
+                bool hasChanged = existingProduct.ProductPrice != shopifyProduct.ProductPrice ||
+                                  existingProduct.Description != shopifyProduct.Description ||
+                                  existingProduct.ImageUrl != shopifyProduct.ImageUrl ||
+                                  existingProduct.ProductWeight != shopifyProduct.ProductWeight;
+
+                if (hasChanged)
+                {
+                    shopifyProduct.ProductId = existingProduct.ProductId;
+                    await _productRepository.UpdateProductAsync(shopifyProduct);
+                    updateCount++;
+                }
             }
         }
         return (importCount, updateCount);

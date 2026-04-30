@@ -1,66 +1,88 @@
 /* Definerer et grid, der automatisk tilpasser antallet af kolonner baseret på skærmbredden */
 .product-grid {
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-gap: 30px;
-padding: 20px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
 }
 
 /* Selve kortet */
 .product-card {
-display: flex;
-flex-direction: column;
-font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    font-family: sans-serif;
 }
 
 /* Container til billedet med en fast højde, så alt flugter, uanset billedstørrelse */
 .image-container {
-width: 100%;
-height: 300px;
-background-color: #eaddd3; /* Baggrundsfarve der matcher billedet lidt */
-margin-bottom: 15px;
-overflow: hidden;
+    width: 100%;
+    height: 300px;
+    background-color: #eaddd3; /* Baggrundsfarve der matcher billedet lidt */
+    margin-bottom: 15px;
+    overflow: hidden;
+    position: relative;
 }
 
 .image-container img {
-width: 100%;
-height: 100%;
-object-fit: cover; /* Sikrer at billedet udfylder rammen uden at blive strukket */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Sikrer at billedet udfylder rammen uden at blive strukket */
 }
 
 /* Tekstområdet */
 .product-info {
-display: flex;
-flex-direction: column;
-flex-grow: 1; /* Sikrer at knappen skubbes i bunden, hvis titler har forskellig længde */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Sikrer at knappen skubbes i bunden, hvis titler har forskellig længde */
 }
 
 .product-info h3 {
-font-size: 1rem;
-font-weight: 600;
-margin: 0 0 5px 0;
-color: #333;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+    color: #333;
 }
 
 .price {
-font-size: 0.9rem;
-color: #666;
-margin: 0 0 15px 0;
-flex-grow: 1;
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0 0 15px 0;
+    flex-grow: 1;
 }
 
 /* Knap (ikke på dit referencebillede, men bevaret fra din kode) */
 .btn-buy {
-background-color: #222;
-color: white;
-border: none;
-padding: 10px;
-cursor: pointer;
-text-transform: uppercase;
-font-size: 0.8rem;
-transition: background-color 0.2s;
+    background-color: #222;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    transition: background-color 0.2s;
 }
 
 .btn-buy:hover {
-background-color: #555;
+    background-color: #555;
+}
+
+.btn-favorite {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(225,225,255,0.8);
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.btn-favorite:hover {
+    transform: scale(1.1);
 }

@@ -6,76 +6,75 @@
 @using Models
 @inject CartService CartService
 @inject CalculateDiscountService calculateDiscountService
+@inject UserService UserService
+@inject UserSessionService UserSession
 
 <h1>Vores Produkter</h1>
 
 @if (products == null || !products.Any())
 {
     <p>Indlæser produkter...</p>
-} 
-else 
+}
+else
 {
+    <div class="product-grid">
+        @foreach (var product in products)
+        {
+            <div class="product-card">
+                <div class="image-container">
+                    <img src="@product.ImageUrl" alt="@product.ProductName" />
+                    
+                    <button class="btn-favorite" @onclick="() => ToggleFavorite(product.ProductId)">
+                        @(isFavorite(product.ProductId) ? "⭐" : "☆")
+                    </button>
+                    
+                </div>
+                <div class="product-info">
+                    <h3>@product.ProductName</h3>
 
-<div class="product-grid">
-    @foreach (var product in products)
-    {
-        <div class="product-card">
-            <div class="image-container">
-                <img src="@product.ImageUrl" alt="@product.ProductName"/>
+                    <p class="price">
+                        @if (discount > 0)
+                        {
+                            <span style="text-decoration: line-through;">
+                                @product.ProductPrice.ToString("N2") kr
+                            </span>
+                            <br />
+                            <strong>
+                                @GetDiscountedPrice(product).ToString("N2") kr
+                            </strong>
+                        }
+                        else
+                        {
+                            <span>
+                                @product.ProductPrice.ToString("N2") kr
+                            </span>
+                        }
+                    </p>
+
+                    <button class="btn-buy" @onclick="() => PlaceInCart(product.ProductId)">
+                        Tilføj til kurv
+                    </button>
+                    
+                </div>
             </div>
-            <div class="product-info">
-                <h3>@product.ProductName</h3>
-
-                <p class="price">
-                    @if (discount > 0)
-                    {
-                        <span style="text-decoration: line-through;">
-                            @product.ProductPrice.ToString("N2") kr
-                        </span>
-                        <br/>
-                        <strong>
-                            @GetDiscountedPrice(product).ToString("N2") kr
-                        </strong>
-                    }
-                    else
-                    {
-                        <span>
-                        @product.ProductPrice.ToString("N2") kr
-                        </span>
-                    }
-                </p>
-
-                <button class="btn-buy" @onclick="() => PlaceInCart(product.ProductId)">
-                    Tilføj til kurv
-                </button>
-            </div>
-        </div>
-    }
-    <button class="btn-favorite" @onclick="() => ToggleFavorite(product.productId)">
-        @(isFavorite(product.productId) ? "⭐" : "☆")
-
-    </button>
-</div>
+        }
+    </div>
 }
 
 @code {
-
-    // ---------------------------    INFO ---------------------------
-    // Hele pointen med dette er at simulerer data, der normalt ville komme fra en database eller et API 
-    // Jeg sender hele data modellen op til GUI'en for test. Det skal self igennem DTO'en når vi er klar... /Jamal
-
-
     private decimal discount = 0.2m;
     private List<ProductDto> products = new();
     private List<ProductDto> favorites = new();
 
     protected override async Task OnInitializedAsync()
     {
-
         products = await ProductService.GetProductsAsync();
-        favorites = (await UserService.GetFavoritesAsync(UserSession.CurrentUser.UserId)).ToList();
-    }
 
+        if (UserSession.CurrentUser != null)
+        {
+            favorites = await UserService.GetFavoriteProductsAsync(UserSession.CurrentUser.UserId);
+        }
+    }
 
     private void PlaceInCart(Guid productId)
     {
@@ -95,13 +94,18 @@ else
         decimal discount = 0.2m; // dummy
         return calculateDiscountService.CalculatePrice(productDto, discount);
     }
-    
+
     private bool isFavorite(Guid productId) => favorites.Any(p => p.ProductId == productId);
 
-    private void ToggleFavorite(Guid productId)
+    private async Task ToggleFavorite(Guid productId)
     {
-        await UserService.to
+        if (UserSession.CurrentUser == null)
+            return;
+
+        var success = await UserService.ToggleFavoriteAsync(UserSession.CurrentUser.UserId, productId);
+        if (success)
+        {
+            favorites = await UserService.GetFavoriteProductsAsync(UserSession.CurrentUser.UserId);
+        }
     }
-
-
 }

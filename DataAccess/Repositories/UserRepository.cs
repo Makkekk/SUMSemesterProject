@@ -17,6 +17,9 @@ public interface IUserRepository
     Task<User?> GetByEmailAsync(string email);
     Task<User?> GetValidResetTokenAsync(string token);
     Task<User?> GetByResetTokenAsync(string token);
+    
+    Task<bool> ToggleFavoriteAsync(Guid userId, Guid productId);
+    Task<IEnumerable<ProductDto>> GetFavoritesAsync(Guid userId);
 }
 
 public class UserRepository : IUserRepository
@@ -130,9 +133,8 @@ public class UserRepository : IUserRepository
     // toggle favorite produkt
     public async Task<bool> ToggleFavoriteAsync(Guid userId, Guid productId)
     {
-        var user = await _context.User
-            .Include(u => u.FavoriteProducts)
-            .FirstOrDefaultAsync(u => u.UserId == userId);
+        var user = await _context.User.Include(u => u.FavoriteProducts).FirstOrDefaultAsync(u => u.UserId == userId);
+       
         var product = await _context.Product.FindAsync(productId);
 
         if (user == null || product == null) return false;
@@ -153,9 +155,7 @@ public class UserRepository : IUserRepository
     //get all favorites
     public async Task<IEnumerable<ProductDto>> GetFavoritesAsync(Guid userId)
     {
-        var user = await _context.User
-            .Include(u => u.FavoriteProducts)
-            .FirstOrDefaultAsync(u => u.UserId == userId);
+        var user = await _context.User.Include(u => u.FavoriteProducts).FirstOrDefaultAsync(u => u.UserId == userId);
         return user?.FavoriteProducts.Select(p => p.ToDto()) ?? new List<ProductDto>();
     }
 }
