@@ -37,7 +37,7 @@ public class AuthController : ControllerBase
 
         await _userRepository.UpdateAsync(user);
 
-        var resetLink = $"https://localhost:7088/ResetPassword?token={Uri.EscapeDataString(token)}";
+        var resetLink = $"https://localhost:5105/ResetPassword?token={Uri.EscapeDataString(token)}";
 
         await _emailService.SendAsync(
             dto.Email,
