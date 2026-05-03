@@ -7,7 +7,9 @@
 
 <header class="site-header">
     <div class="logo">
-        <NavLink href="">Lajmi Roasters</NavLink>
+        <NavLink href="">
+            <img src="Images/Logo/Lajmi_logo_black.png" alt="Lajmi Logo" class="header-logo" />
+        </NavLink>
     </div>
 
     <nav class="main-nav">
@@ -17,21 +19,14 @@
         {
             <NavLink href="AdminPage">Dashboard</NavLink>
         }
-        @if (UserSession.IsLoggedIn)
-        {
-            <button class="nav-link-button" @onclick="Logout">
-                Log ud
-            </button>
-        }
-        else
-        {
-            <NavLink href="login">Log ind</NavLink>
-        }
     </nav>
 
     <div class="header-icons">
         @if (UserSession.IsLoggedIn)
         {
+            <button class="nav-link-button" @onclick="Logout">
+                Log ud
+            </button>
             <button class="icon-btn" @onclick="FavoriteService.ToggleSidebar" title="Favoritter">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
                     <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.593l-.837-4.73 3.447-3.338c.33-.319.16-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.63-.283.95l3.447 3.338-.837 4.73zm3.34-5.933L3.232 7.96l3.484-.495 1.284-3.133 1.284 3.133 3.484.495-2.974 2.88.68 3.847L8 13.187l-3.189 1.641.68-3.847L2.517 7.96z"/>
@@ -42,7 +37,11 @@
                 }
             </button>
         }
-        <NavLink href="cart">
+        else
+        {
+            <NavLink href="login" class="nav-link-button">Log ind</NavLink>
+        }
+        <NavLink href="cart" class="icon-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9zM1 7v1h14V7zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10m2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10m2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10m2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5m2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5"/>
             </svg>

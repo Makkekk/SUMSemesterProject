@@ -1,62 +1,82 @@
 .site-header {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 2rem;
-    height: 60px;
+    padding: 0 3rem;
+    height: 80px;   
     background: #fff;
-    border-bottom: 1px solid #e8e8e8;
+    border-bottom: 1px solid rgb(221, 221, 221);
     position: sticky;
     top: 0;
     z-index: 100;
+    font-family: "Instrument Sans", sans-serif;
+}
+
+.logo {
+    justify-self: start;
 }
 
 .logo a {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: #111;
-    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.header-logo {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
 }
 
 .main-nav {
     display: flex;
-    gap: 2rem;
+    gap: 2.5rem;
+    align-items: center;
+    justify-self: center; /* Centrerer menuen i den midterste kolonne */
 }
 
-.main-nav a {
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #111;
-    text-decoration: none;
-    opacity: 0.85;
-    transition: opacity 0.2s;
-}
-
-.main-nav a:hover,
+.main-nav a, 
+.main-nav a:visited, 
+.main-nav a:active,
+.main-nav a:focus,
 .main-nav a.active {
-    opacity: 1;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 2.16px;
+    line-height: 20.4px;
+    text-transform: uppercase;
+    color: rgb(28, 28, 28) !important;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    -webkit-font-smoothing: antialiased;
+}
+
+.main-nav a:hover {
+    opacity: 0.7;
+    color: rgb(28, 28, 28) !important;
 }
 
 .header-icons {
     display: flex;
+    flex-direction: row-reverse; /* Vender rækkefølgen så Log ud er yderst til højre */
     align-items: center;
-    gap: 1.2rem;
+    gap: 1.5rem;
+    justify-self: end;
 }
 
-.header-icons a,
+.header-icons a.icon-btn,
 .icon-btn {
     background: none;
     border: none;
     padding: 0;
-    color: #111;
+    color: rgb(28, 28, 28);
     text-decoration: none;
     display: flex;
     align-items: center;
-    position: relative;
+    justify-content: center;
+    position: relative !important; /* Tvinger den til at være anker */
     cursor: pointer;
+    width: 24px;
+    height: 24px;
 }
 
 .cart-badge,
@@ -64,27 +84,43 @@
     position: absolute;
     top: -6px;
     right: -8px;
-    background: #111;
+    background: rgb(28, 28, 28); /* Begge er nu sorte */
     color: #fff;
-    font-size: 0.6rem;
+    font-size: 9px;
+    font-weight: bold;
     width: 16px;
     height: 16px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: sans-serif;
+    z-index: 10;
+    pointer-events: none; /* Så de ikke kommer i vejen for klik */
 }
 
 .fav-badge {
-    background: #f39c12; /* A bit different color for favorites badge maybe? Or keep it #111 */
+    background: rgb(28, 28, 28);
+}
+
+.cart-badge {
+    /* Nu bruger den samme logik som favorit */
 }
 
 .nav-link-button {
     background: none;
     border: none;
     padding: 0;
-    font: inherit;
-    color: inherit;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 2.16px;
+    text-transform: uppercase;
+    color: rgb(28, 28, 28);
     cursor: pointer;
-    text-decoration: underline;
+    text-decoration: none;
+    font-family: "Instrument Sans", sans-serif;
+}
+
+.nav-link-button:hover {
+    opacity: 0.7;
 }

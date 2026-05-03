@@ -1,0 +1,37 @@
+@using LajmiBlazorWebApp.Client.Services
+@inject UserSessionService UserSession
+
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <h4>Kontakt</h4>
+            <p>Skjoldhøjvej 39</p>
+            <p>8471 Sabro, Lading</p>
+            <p><a href="mailto:Info@lajmi.dk">Info@lajmi.dk</a></p>
+            <p><a href="tel:+4570209666">+45 70 20 96 66</a></p>
+        </div>
+
+        <div class="footer-column">
+            <h4>Information</h4>
+            <p>CVR-Nummer: 40699686</p>
+            <p><a href="discounts">Rabataftaler</a></p>
+            <p><a href="products">Produktkatalog</a></p>
+        </div>
+
+        <div class="footer-column">
+            <h4>Konto</h4>
+            @if (UserSession.IsLoggedIn)
+            {
+                <p><a href="OrderHistory">Ordrehistorik</a></p>
+                <p><a href="cart">Indkøbskurv</a></p>
+            }
+            else
+            {
+                <p><a href="login">Log ind</a></p>
+            }
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; @DateTime.Now.Year Lajmi Roasters. Alle rettigheder forbeholdes.</p>
+    </div>
+</footer>
