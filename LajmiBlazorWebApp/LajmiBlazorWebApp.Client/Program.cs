@@ -17,6 +17,7 @@ class Program
         builder.Services.AddScoped<IOrderService, OrderService>();
         builder.Services.AddScoped<CalculateDiscountService>();
         builder.Services.AddScoped<CompanyService>();
+        builder.Services.AddScoped<FavoriteService>();
         builder.Services.AddScoped(sp =>
             new HttpClient
             {

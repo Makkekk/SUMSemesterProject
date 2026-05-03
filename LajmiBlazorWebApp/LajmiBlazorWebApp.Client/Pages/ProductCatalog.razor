@@ -2,12 +2,15 @@
 @page "/products"
 @using LajmiBlazorWebApp.Client.Services
 @using DTO
+@using LajmiBlazorWebApp.Client.Components.Layout
 @inject ProductService ProductService
 @using Models
 @inject CartService CartService
 @inject CalculateDiscountService calculateDiscountService
 @inject UserService UserService
 @inject UserSessionService UserSession
+@inject FavoriteService FavoriteService
+@implements IDisposable
 
 <h1>Vores Produkter</h1>
 
@@ -24,7 +27,7 @@ else
                 <div class="image-container">
                     <img src="@product.ImageUrl" alt="@product.ProductName" />
                     
-                    <button class="btn-favorite" @onclick="() => ToggleFavorite(product.ProductId)">
+                    <button class="btn-favorite" @onclick="() => ToggleFavorite(product)">
                         @(isFavorite(product.ProductId) ? "⭐" : "☆")
                     </button>
                     
@@ -64,16 +67,16 @@ else
 @code {
     private decimal discount = 0.2m;
     private List<ProductDto> products = new();
-    private List<ProductDto> favorites = new();
 
     protected override async Task OnInitializedAsync()
     {
+        FavoriteService.OnFavoriteChanged += StateHasChanged;
         products = await ProductService.GetProductsAsync();
+    }
 
-        if (UserSession.CurrentUser != null)
-        {
-            favorites = await UserService.GetFavoriteProductsAsync(UserSession.CurrentUser.UserId);
-        }
+    public void Dispose()
+    {
+        FavoriteService.OnFavoriteChanged -= StateHasChanged;
     }
 
     private void PlaceInCart(Guid productId)
@@ -95,17 +98,10 @@ else
         return calculateDiscountService.CalculatePrice(productDto, discount);
     }
 
-    private bool isFavorite(Guid productId) => favorites.Any(p => p.ProductId == productId);
+    private bool isFavorite(Guid productId) => FavoriteService.FavoriteProducts.Any(p => p.ProductId == productId);
 
-    private async Task ToggleFavorite(Guid productId)
+    private async Task ToggleFavorite(ProductDto product)
     {
-        if (UserSession.CurrentUser == null)
-            return;
-
-        var success = await UserService.ToggleFavoriteAsync(UserSession.CurrentUser.UserId, productId);
-        if (success)
-        {
-            favorites = await UserService.GetFavoriteProductsAsync(UserSession.CurrentUser.UserId);
-        }
+        await FavoriteService.ToggleFavorite(product);
     }
 }

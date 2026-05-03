@@ -46,15 +46,21 @@
     gap: 1.2rem;
 }
 
-.header-icons a {
+.header-icons a,
+.icon-btn {
+    background: none;
+    border: none;
+    padding: 0;
     color: #111;
     text-decoration: none;
     display: flex;
     align-items: center;
     position: relative;
+    cursor: pointer;
 }
 
-.cart-badge {
+.cart-badge,
+.fav-badge {
     position: absolute;
     top: -6px;
     right: -8px;
@@ -67,6 +73,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.fav-badge {
+    background: #f39c12; /* A bit different color for favorites badge maybe? Or keep it #111 */
 }
 
 .nav-link-button {
