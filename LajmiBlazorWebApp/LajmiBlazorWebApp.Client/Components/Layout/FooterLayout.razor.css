@@ -1,0 +1,53 @@
+.site-footer {
+    background-color: #fff;
+    border-top: 1px solid rgb(221, 221, 221);
+    padding: 4rem 3rem 2rem 3rem;
+    margin-top: 4rem;
+    font-family: "Instrument Sans", sans-serif;
+    color: rgb(28, 28, 28);
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-column h4 {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2.16px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    color: rgb(28, 28, 28);
+}
+
+.footer-column p, 
+.footer-column a {
+    font-size: 13px;
+    line-height: 1.8;
+    margin: 0;
+    color: #666;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-column a:hover {
+    color: rgb(28, 28, 28);
+}
+
+.footer-bottom {
+    border-top: 1px solid #f0f0f0;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    text-align: center;
+}
+
+.footer-bottom p {
+    font-size: 11px;
+    color: #999;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}

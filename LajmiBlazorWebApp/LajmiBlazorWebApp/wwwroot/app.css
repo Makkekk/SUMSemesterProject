@@ -36,3 +36,50 @@ h1:focus {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+/* Global override for header links to fix the blue 'visited' color */
+.site-header a, 
+.site-header a:visited, 
+.site-header a:active, 
+.site-header a:focus,
+.site-header a.active {
+    color: rgb(28, 28, 28) !important;
+    text-decoration: none !important;
+}
+
+/* Tvinger ikoner i headeren til at være ankre for deres badges */
+.header-icons .icon-btn, 
+.header-icons a.icon-btn {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    background: none !important;
+    border: none !important;
+    color: rgb(28, 28, 28) !important;
+    cursor: pointer;
+}
+
+/* Fælles styling for alle badges (kurv og favoritter) */
+.header-icons .cart-badge, 
+.header-icons .fav-badge {
+    position: absolute !important;
+    top: -4px !important;
+    right: -4px !important;
+    background: rgb(28, 28, 28) !important;
+    color: #fff !important;
+    font-size: 10px !important;
+    font-weight: bold !important;
+    min-width: 18px !important;
+    height: 18px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    z-index: 100 !important;
+    font-family: sans-serif !important;
+    line-height: 1;
+}
