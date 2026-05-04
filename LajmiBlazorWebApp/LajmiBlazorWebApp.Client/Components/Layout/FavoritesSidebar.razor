@@ -1,0 +1,67 @@
+﻿@inject FavoriteService FavoriteService
+@inject CartService CartService
+@using DTO
+@implements IDisposable
+
+<div class="fav-sidebar @(FavoriteService.IsVisible ? "open" : "")">
+    <div class="sidebar-header">
+        <h3>Mine Favoritter</h3>
+        <button class="close-btn" @onclick="FavoriteService.ToggleSidebar">✕</button>
+    </div>
+    <div class="sidebar-content">
+        @if (!FavoriteService.FavoriteProducts.Any())
+        {
+            <div class="empty-state">
+                <p>Du har ingen favoritter endnu.</p>
+                <p>Gå til kataloget og klik på ⭐ for at tilføje dine favoritter!</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var product in FavoriteService.FavoriteProducts)
+            {
+                <div class="fav-product">
+                    <img src="@product.ImageUrl" alt="@product.ProductName" class="fav-product-image"/>
+                    <div class="fav-product-info">
+                        <span class="name">@product.ProductName</span>
+                        <span class="price">@product.ProductPrice.ToString("N2") kr</span>
+                    </div>
+                    <div class="fav-actions">
+                        <button class="add-to-cart-btn" @onclick="() => AddToCart(product)" title="Tilføj til kurv">
+                            🛒
+                        </button>
+                        <button class="remove-btn" @onclick="() => FavoriteService.ToggleFavorite(product)"
+                                title="Fjern fra favoritter">
+                            🗑️
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@if (FavoriteService.IsVisible)
+{
+    <div class="sidebar-overlay" @onclick="FavoriteService.ToggleSidebar"></div>
+}
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        FavoriteService.OnFavoriteChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        FavoriteService.OnFavoriteChanged -= StateHasChanged;
+    }
+
+    private void AddToCart(ProductDto productDto)
+    {
+        CartService.AddProduct(productDto);
+        CartService.AddProductcounter();
+    }
+
+}
